@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<version>0.1</version>
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<artifactId>MOSEF</artifactId>
+	<groupId>dk.jonaslindstrom</groupId>
+	<name>MOSEF</name>
+	<url>https://github.com/jonas-lj/MOSEF</url>
+	<description>Modular Synthesizer Framework</description>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License v3.0</name>
+			<url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Jonas Lindstrøm</name>
+			<email>mail@jonaslindstrom.dk</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/jonas-lj/MOSEF.git</connection>
+		<developerConnection>scm:git:ssh://github.com:jonas-lj/MOSEF.git</developerConnection>
+		<url>http://github.com/jonas-lj/MOSEF/tree/master</url>
+	</scm>
+
+</project>
