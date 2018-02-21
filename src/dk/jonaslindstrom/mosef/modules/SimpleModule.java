@@ -15,7 +15,7 @@ public abstract class SimpleModule implements Module {
 	private Module[] inputs;
 	private float[] buffer;
 	private float[][] inputBuffers;
-
+	
 	public SimpleModule(MOSEFSettings settings, Module ... inputs) {
 		this.buffer = new float[settings.getBufferSize()];
 		
@@ -52,5 +52,9 @@ public abstract class SimpleModule implements Module {
 		}
 				
 		return buffer;
+	}
+	
+	public void setInput(int input, Module module) {
+		this.inputs[input] = module;
 	}
 }
