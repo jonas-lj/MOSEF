@@ -242,7 +242,7 @@ public class MOSEF {
   public MOSEFModule delay(MOSEFModule input, float delay) {
     return delay(input, constant(delay), delay);
   }
-  
+
   public MOSEFModule sine(MOSEFModule frequency) {
     return new Oscillator(settings, frequency,
         new SampledWave(settings, t -> (float) Math.sin(2 * (float) Math.PI * t), 256));
@@ -320,7 +320,8 @@ public class MOSEF {
    * @param depth
    * @return
    */
-  public MOSEFModule chorus(MOSEFModule input, MOSEFModule rate, MOSEFModule wetness, MOSEFModule depth) {
+  public MOSEFModule chorus(MOSEFModule input, MOSEFModule rate, MOSEFModule wetness,
+      MOSEFModule depth) {
     return new Chorus(this, input, rate, wetness, depth);
   }
 
@@ -371,7 +372,8 @@ public class MOSEF {
     return new Reverb(this, input);
   }
 
-  public MOSEFModule vibrato(MOSEFModule input, MOSEFModule rate, MOSEFModule depth, float maxDepth) {
+  public MOSEFModule vibrato(MOSEFModule input, MOSEFModule rate, MOSEFModule depth,
+      float maxDepth) {
     return new Vibrato(this, input, rate, depth);
   }
 

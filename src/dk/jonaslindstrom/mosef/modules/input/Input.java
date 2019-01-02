@@ -36,7 +36,7 @@ public class Input implements MOSEFModule, StopableModule {
       int byterate = settings.getBitRate() / 8;
       this.bufferSize = settings.getBufferSize() * byterate;
       targetLine = AudioSystem.getTargetDataLine(format);
-      targetLine.open(format, bufferSize);      
+      targetLine.open(format, bufferSize);
       this.buffers = new ArrayBlockingQueue<>(3);
 
       Runnable runner = new Runnable() {
@@ -47,15 +47,15 @@ public class Input implements MOSEFModule, StopableModule {
           float scale = (float) Math.pow(2, -settings.getBitRate() - 1);
           byte[] bytes = new byte[bufferSize];
           float[] buffer = new float[settings.getBufferSize()];
-          
+
           while (running) {
-            targetLine.read(bytes, 0, bytes.length);            
+            targetLine.read(bytes, 0, bytes.length);
             byteBuffer.rewind();
             byteBuffer.put(bytes);
             shortBuffer.rewind();
             for (int i = 0; i < settings.getBufferSize(); i++) {
-                buffer[i] = shortBuffer.get(i) * scale;
-            }                       
+              buffer[i] = shortBuffer.get(i) * scale;
+            }
             buffers.add(buffer);
           }
           targetLine.stop();
@@ -68,20 +68,20 @@ public class Input implements MOSEFModule, StopableModule {
   }
 
   @Override
-  public float[] getNextSamples() { 
+  public float[] getNextSamples() {
     if (!running) {
       running = true;
       targetLine.start();
       inputThread.start();
     }
-    
+
     if (buffers.isEmpty()) {
       return new float[settings.getBufferSize()];
     } else {
       return buffers.poll();
     }
   }
-  
+
   @Override
   public void stop() {
     running = false;

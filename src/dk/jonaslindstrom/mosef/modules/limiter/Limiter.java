@@ -5,8 +5,7 @@ import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 /**
- * This class represents a limiter module where the input signal is limited by
- * some limit.
+ * This class represents a limiter module where the input signal is limited by some limit.
  * 
  * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
  *
@@ -14,22 +13,22 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 public class Limiter extends SimpleModule {
 
 
-	public Limiter(MOSEFSettings settings, MOSEFModule input, MOSEFModule limit) {
-		super(settings, "In", input, "Limit", limit);
-	}
-	
-	@Override
-	public float getNextSample(float ... inputs) {
-		float input = inputs[0];
-		float limit = inputs[1];
-		
-		if (input > limit) {
-			return limit;
-		} else if (input < -limit) {
-			return -limit;
-		} else {
-			return input;
-		}
-	}
+  public Limiter(MOSEFSettings settings, MOSEFModule input, MOSEFModule limit) {
+    super(settings, "In", input, "Limit", limit);
+  }
+
+  @Override
+  public float getNextSample(float... inputs) {
+    float input = inputs[0];
+    float limit = inputs[1];
+
+    if (input > limit) {
+      return limit;
+    } else if (input < -limit) {
+      return -limit;
+    } else {
+      return input;
+    }
+  }
 
 }

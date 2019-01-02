@@ -19,7 +19,7 @@ public class ExactOscillator implements MOSEFModule {
     this.low = true;
     this.buffer = new float[settings.getBufferSize()];
   }
-  
+
   @Override
   public float[] getNextSamples() {
     for (int j = 0; j < settings.getBufferSize(); j++) {

@@ -5,36 +5,36 @@ import java.util.Map;
 
 public class Printer implements MOSEFModule {
 
-	private MOSEFModule input;
-	private int frequency;
-	private int counter;
+  private MOSEFModule input;
+  private int frequency;
+  private int counter;
 
-	/**
-	 * Instances of this module replicates the input module and prints the value
-	 * of each <i>frequency</i>th value to stdout.
-	 * 
-	 * @param input
-	 * @param frequency
-	 */
-	public Printer(MOSEFModule input, int frequency) {
-		this.input = input;
-		this.frequency = frequency;
-		this.counter = 0;
-	}
-	
-	@Override
-	public float[] getNextSamples() {
-		float[] buffer = input.getNextSamples();
+  /**
+   * Instances of this module replicates the input module and prints the value of each
+   * <i>frequency</i>th value to stdout.
+   * 
+   * @param input
+   * @param frequency
+   */
+  public Printer(MOSEFModule input, int frequency) {
+    this.input = input;
+    this.frequency = frequency;
+    this.counter = 0;
+  }
 
-		for (int i = 0; i < buffer.length; i++) {
-			counter++;
-			if (counter == frequency) {
-				System.out.println(buffer[i]);
-				counter = 0;
-			}			
-		}
-		return buffer;
-	}
+  @Override
+  public float[] getNextSamples() {
+    float[] buffer = input.getNextSamples();
+
+    for (int i = 0; i < buffer.length; i++) {
+      counter++;
+      if (counter == frequency) {
+        System.out.println(buffer[i]);
+        counter = 0;
+      }
+    }
+    return buffer;
+  }
 
   @Override
   public Map<String, MOSEFModule> getInputs() {

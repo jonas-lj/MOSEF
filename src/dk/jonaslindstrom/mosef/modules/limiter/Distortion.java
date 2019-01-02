@@ -6,15 +6,15 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Distortion extends SimpleModule {
 
-	public Distortion(MOSEFSettings settings, MOSEFModule input, MOSEFModule distortion) {
-		super(settings, "In", input, "Distortion", distortion);
-	}
+  public Distortion(MOSEFSettings settings, MOSEFModule input, MOSEFModule distortion) {
+    super(settings, "In", input, "Distortion", distortion);
+  }
 
-	@Override
-	public float getNextSample(float... inputs) {
-		float x = inputs[0];
-		float d = inputs[1];
-		return (float) (x + Math.atan(16.0f * d * x) / 4.0f);
-	}
-	
+  @Override
+  public float getNextSample(float... inputs) {
+    float x = inputs[0];
+    float d = inputs[1];
+    return (float) (x + Math.atan(16.0f * d * x) / 4.0f);
+  }
+
 }

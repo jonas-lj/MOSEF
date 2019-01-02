@@ -27,11 +27,11 @@ public abstract class SimpleModule implements MOSEFModule {
     }
     return map;
   }
-  
+
   protected SimpleModule(MOSEFSettings settings, String prefix, List<MOSEFModule> modules) {
     this(settings, buildMap(prefix, modules));
   }
-  
+
   protected SimpleModule(MOSEFSettings settings, Map<String, MOSEFModule> inputs) {
     this.settings = settings;
     this.inputs = inputs;

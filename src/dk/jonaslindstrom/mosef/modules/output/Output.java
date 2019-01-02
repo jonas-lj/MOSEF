@@ -61,7 +61,7 @@ public class Output implements StopableModule, OutputModule {
             if (buffer == null) {
               buffer = new float[settings.getBufferSize()];
             }
-            
+
             shortBuffer.rewind();
             for (int i = 0; i < buffer.length; i++) {
               shortBuffer.put((short) (buffer[i] * scale));

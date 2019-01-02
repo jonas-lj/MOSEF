@@ -6,22 +6,22 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Exponential extends SimpleModule {
 
-	/**
-	 * This modules maps a linear signal to an exponential one s.t. 0.0 maps to 0.0 and
-	 * 1.0 maps to 1.0.
-	 * 
-	 * @param settings
-	 * @param input
-	 */
-	public Exponential(MOSEFSettings settings, MOSEFModule input) {
-		super(settings, "In", input);
-	}
+  /**
+   * This modules maps a linear signal to an exponential one s.t. 0.0 maps to 0.0 and 1.0 maps to
+   * 1.0.
+   * 
+   * @param settings
+   * @param input
+   */
+  public Exponential(MOSEFSettings settings, MOSEFModule input) {
+    super(settings, "In", input);
+  }
 
-	@Override
-	public float getNextSample(float... inputs) {
-		return (float) (Math.expm1(inputs[0]) / Math.E);
-	}
+  @Override
+  public float getNextSample(float... inputs) {
+    return (float) (Math.expm1(inputs[0]) / Math.E);
+  }
 
-	
-	
+
+
 }
