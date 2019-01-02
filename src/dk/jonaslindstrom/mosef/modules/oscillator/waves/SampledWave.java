@@ -1,9 +1,8 @@
 package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
+import dk.jonaslindstrom.mosef.MOSEFSettings;
 import java.awt.geom.Point2D;
 import java.util.function.Function;
-
-import dk.jonaslindstrom.mosef.MOSEFSettings;
 
 public class SampledWave extends SimpleWave {
 	

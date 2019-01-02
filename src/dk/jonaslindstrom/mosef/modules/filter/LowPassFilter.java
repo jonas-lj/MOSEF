@@ -2,22 +2,23 @@ package dk.jonaslindstrom.mosef.modules.filter;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.memory.SampleMemory;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.filter.filters.LowPassDiscreteFilterFactory;
 import dk.jonaslindstrom.mosef.modules.filter.filters.windows.RectangularWindow;
 import dk.jonaslindstrom.mosef.modules.filter.filters.windows.Window;
+import java.util.Map;
 
-public class LowPassFilter implements Module {
+public class LowPassFilter implements MOSEFModule {
 
-	private Module cutoff;
+	private MOSEFModule cutoff;
 	private float[][] discreteFilters;
-	private Module input;
+	private MOSEFModule input;
 	private SampleMemory sampleMemory;
 	private int length;
 	private float scale;
 	private float[] buffer;
 
-	public LowPassFilter(MOSEFSettings settings, Module input, Module cutoff) {
+	public LowPassFilter(MOSEFSettings settings, MOSEFModule input, MOSEFModule cutoff) {
 		// Default values
 		this(settings, input, cutoff, 512, 101, new RectangularWindow(101));
 	}
@@ -38,7 +39,7 @@ public class LowPassFilter implements Module {
 	 * @param window
 	 *            The window function to be used in the filter.
 	 */
-	public LowPassFilter(MOSEFSettings settings, Module input, Module cutoff, int size, int length,
+	public LowPassFilter(MOSEFSettings settings, MOSEFModule input, MOSEFModule cutoff, int size, int length,
 			Window window) {
 		this.buffer = new float[settings.getBufferSize()];
 		this.input = input;
@@ -77,5 +78,10 @@ public class LowPassFilter implements Module {
 		}
 		return buffer;
 	}
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of("In", input, "Cutoff", cutoff);
+  }
 
 }

@@ -4,6 +4,7 @@ import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 import dk.jonaslindstrom.mosef.modules.tuning.tuningfunction.TuningFunction;
 import dk.jonaslindstrom.mosef.modules.tuning.tuningfunction.WellTemperedTuningFunction;
+import java.util.Map;
 
 public class SimpleTuner extends SimpleModule implements Tuner {
 
@@ -12,7 +13,7 @@ public class SimpleTuner extends SimpleModule implements Tuner {
 	private int note;
 
 	public SimpleTuner(MOSEFSettings settings, TuningFunction tuningFunction) {
-		super(settings);
+		super(settings, Map.of());
 		this.tuningFunction = tuningFunction;
 		setNote(0);
 	}

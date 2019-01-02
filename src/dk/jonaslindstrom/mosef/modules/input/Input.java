@@ -1,22 +1,21 @@
 package dk.jonaslindstrom.mosef.modules.input;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.StopableModule;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 
-public class Input implements Module, StopableModule {
+public class Input implements MOSEFModule, StopableModule {
 
   private MOSEFSettings settings;
   private TargetDataLine targetLine;
-  private int byterate;
   private int bufferSize;
   private Queue<float[]> buffers;
   private boolean running = false;
@@ -26,25 +25,17 @@ public class Input implements Module, StopableModule {
    * Instances of this module provide sound from input sources, eg. instruments or microphones. This
    * module uses the default sound input source.
    * 
-   * @param samplerate Number of samples per second, eg. 44100.
-   * @param bitrate Bits per sample, eg. 16.
-   * @param buffersize Size of the buffer used for this input source. Low buffersize may decrease
-   *        latency but may cause stutter if the buffer runs out of data.
+   * @param settings
    */
   public Input(MOSEFSettings settings) {
     this.settings = settings;
 
     try {
-      // Open the default input source
-      boolean bigEndian = true;
-
       AudioFormat format =
-          new AudioFormat(settings.getSampleRate(), settings.getBitRate(), 1, true, bigEndian);
-      this.byterate = settings.getBitRate() / 8;
+          new AudioFormat(settings.getSampleRate(), settings.getBitRate(), 1, true, true);
+      int byterate = settings.getBitRate() / 8;
       this.bufferSize = settings.getBufferSize() * byterate;
-      
-      DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
-      targetLine = (TargetDataLine) AudioSystem.getLine(targetInfo);
+      targetLine = AudioSystem.getTargetDataLine(format);
       targetLine.open(format, bufferSize);      
       this.buffers = new ArrayBlockingQueue<>(3);
 
@@ -94,6 +85,11 @@ public class Input implements Module, StopableModule {
   @Override
   public void stop() {
     running = false;
+  }
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of();
   }
 
 }

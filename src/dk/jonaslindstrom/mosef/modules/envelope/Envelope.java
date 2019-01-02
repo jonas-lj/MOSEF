@@ -1,8 +1,9 @@
 package dk.jonaslindstrom.mosef.modules.envelope;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
+import java.util.Map;
 
 public class Envelope extends SimpleModule {
 
@@ -26,9 +27,10 @@ public class Envelope extends SimpleModule {
 	 * @param release
 	 * @param samplesPerSecond
 	 */
-	public Envelope(MOSEFSettings settings, Module attack, Module decay, Module sustainLevel,
-			Module release, Module gate) {
-		super(settings, attack, decay, sustainLevel, release, gate);
+	public Envelope(MOSEFSettings settings, MOSEFModule attack, MOSEFModule decay, MOSEFModule sustainLevel,
+			MOSEFModule release, MOSEFModule gate) {
+    super(settings, Map.of("Attack", attack, "Decay", decay, "Sustain", sustainLevel, "Release",
+        release, "Gate", gate));
 		this.dt = 1.0f / settings.getSampleRate();
 	}
 	
@@ -86,5 +88,5 @@ public class Envelope extends SimpleModule {
 	private float linearInterpolate(float dx, float dy, float x) {
 		return x * dy / dx;
 	}
-	
+
 }

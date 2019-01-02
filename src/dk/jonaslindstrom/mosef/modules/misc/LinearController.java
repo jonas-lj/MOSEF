@@ -1,11 +1,11 @@
 package dk.jonaslindstrom.mosef.modules.misc;
 
-import java.util.Arrays;
-
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import java.util.Arrays;
+import java.util.Map;
 
-public class LinearController implements Module {
+public class LinearController implements MOSEFModule {
 
 	private float min, max, control, value;
 	private float[] buffer;
@@ -36,4 +36,9 @@ public class LinearController implements Module {
 		Arrays.fill(buffer, value);
 		return buffer;
 	}
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of();
+  }
 }

@@ -1,5 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.sample;
 
+import dk.jonaslindstrom.mosef.MOSEFSettings;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -7,17 +9,14 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.Arrays;
-
+import java.util.Map;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
-
-public class Sample implements Module {
+public class Sample implements MOSEFModule {
 
 	private MOSEFSettings settings;
 	private FloatBuffer sampleBuffer;
@@ -86,5 +85,10 @@ public class Sample implements Module {
 		AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
 		
 	}
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of();
+  }
 
 }

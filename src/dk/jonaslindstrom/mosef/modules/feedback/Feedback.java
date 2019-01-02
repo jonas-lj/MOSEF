@@ -1,8 +1,9 @@
 package dk.jonaslindstrom.mosef.modules.feedback;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.mixer.Mixer;
+import java.util.Map;
 
 /**
  * This class represents a module which allows us to provide feedback from a
@@ -19,13 +20,13 @@ import dk.jonaslindstrom.mosef.modules.mixer.Mixer;
  * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
  *
  */
-public class Feedback implements Module {
+public class Feedback implements MOSEFModule {
 
 	private Mixer mixer;
-	private Module input;
+	private MOSEFModule input;
 	private MOSEFSettings settings;
 
-	public Feedback(MOSEFSettings settings, Module input) {
+	public Feedback(MOSEFSettings settings, MOSEFModule input) {
 		this.settings = settings;
 		this.input = input;
 	}
@@ -40,8 +41,13 @@ public class Feedback implements Module {
 	 * 
 	 * @param feedback
 	 */
-	public void setFeedbackSource(Module feedback) {
+	public void setFeedbackSource(MOSEFModule feedback) {
 		this.mixer = new Mixer(settings, input, feedback);
 	}
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of("In", input);
+  }
 
 }

@@ -11,9 +11,9 @@ public class SquareWave extends SimpleWave {
 	@Override
 	public float getSample(float t) {
 		if (t < 0.5f) {
-			return 1.0f;
+			return .99f;
 		} else {
-			return -1.0f;
+			return -.99f;
 		}
 	}
 

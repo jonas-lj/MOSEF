@@ -1,13 +1,14 @@
 package dk.jonaslindstrom.mosef.modules.oscillator;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.oscillator.waves.Wave;
+import java.util.Map;
 
-public class Oscillator implements Module {
+public class Oscillator implements MOSEFModule {
 
 	private Wave wave;
-	private Module frequency;
+	private MOSEFModule frequency;
 	private float t = 0.0f;
 	private float scale;
 	private float[] buffer;
@@ -19,7 +20,7 @@ public class Oscillator implements Module {
 	 * @param wave A {@link Wave} function.
 	 * @param samplerate The number of samples per second.
 	 */
-	public Oscillator(MOSEFSettings settings, Module frequency, Wave wave) {
+	public Oscillator(MOSEFSettings settings, MOSEFModule frequency, Wave wave) {
 		this.buffer = new float[settings.getBufferSize()];
 		this.wave = wave;
 		this.frequency = frequency;
@@ -42,5 +43,10 @@ public class Oscillator implements Module {
 		return wave.getSamples(buffer);
 		
 	}
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of("Frequency", frequency);
+  }
 	
 }

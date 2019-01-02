@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.misc;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Exponential extends SimpleModule {
@@ -13,8 +13,8 @@ public class Exponential extends SimpleModule {
 	 * @param settings
 	 * @param input
 	 */
-	public Exponential(MOSEFSettings settings, Module input) {
-		super(settings, input);
+	public Exponential(MOSEFSettings settings, MOSEFModule input) {
+		super(settings, "In", input);
 	}
 
 	@Override

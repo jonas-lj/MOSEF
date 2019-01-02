@@ -2,6 +2,7 @@ package dk.jonaslindstrom.mosef.modules.sequencers;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
+import java.util.Map;
 
 public class ClockFixed extends SimpleModule {
 
@@ -9,7 +10,7 @@ public class ClockFixed extends SimpleModule {
 	private int delta;
 	
 	public ClockFixed(MOSEFSettings settings, int bpm) {
-		super(settings);
+		super(settings, Map.of());
 		this.state = 0;
 		this.delta = (int) (settings.getSampleRate() * 60.0 / bpm);
 	}

@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.limiter;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 /**
@@ -14,8 +14,8 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 public class Limiter extends SimpleModule {
 
 
-	public Limiter(MOSEFSettings settings, Module input, Module limit) {
-		super(settings, input, limit);
+	public Limiter(MOSEFSettings settings, MOSEFModule input, MOSEFModule limit) {
+		super(settings, "In", input, "Limit", limit);
 	}
 	
 	@Override

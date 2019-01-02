@@ -1,6 +1,6 @@
 package dk.jonaslindstrom.mosef;
 
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.StopableModule;
 import dk.jonaslindstrom.mosef.modules.amplifier.Amplifier;
 import dk.jonaslindstrom.mosef.modules.amplifier.Multiplier;
@@ -59,7 +59,7 @@ public class MOSEF {
    * @param level
    * @return
    */
-  public Module amplifier(Module input, Module level) {
+  public MOSEFModule amplifier(MOSEFModule input, MOSEFModule level) {
     return new Amplifier(settings, input, level);
   }
 
@@ -70,15 +70,15 @@ public class MOSEF {
    * @param level
    * @return
    */
-  public Module amplifier(Module input, float level) {
+  public MOSEFModule amplifier(MOSEFModule input, float level) {
     return new Amplifier(settings, input, constant(level));
   }
 
-  public Module multiplier(Module input, Module multiplier) {
+  public MOSEFModule multiplier(MOSEFModule input, MOSEFModule multiplier) {
     return new Multiplier(settings, input, multiplier);
   }
 
-  public Module multiplier(Module input, float multiplier) {
+  public MOSEFModule multiplier(MOSEFModule input, float multiplier) {
     return new Multiplier(settings, input, constant(multiplier));
   }
 
@@ -88,7 +88,7 @@ public class MOSEF {
    * @param inputs
    * @return
    */
-  public Module mixer(Module... inputs) {
+  public MOSEFModule mixer(MOSEFModule... inputs) {
     return new Mixer(settings, inputs);
   }
 
@@ -98,12 +98,12 @@ public class MOSEF {
    * @param value
    * @return
    */
-  public Module constant(float value) {
+  public MOSEFModule constant(float value) {
     return new Constant(settings, value);
   }
 
-  public Module[] constants(float... values) {
-    Module[] constants = new Module[values.length];
+  public MOSEFModule[] constants(float... values) {
+    MOSEFModule[] constants = new MOSEFModule[values.length];
     for (int i = 0; i < values.length; i++) {
       constants[i] = constant(values[i]);
     }
@@ -118,7 +118,7 @@ public class MOSEF {
    * @param scale
    * @return
    */
-  public Module center(Module input, Module center, Module scale) {
+  public MOSEFModule center(MOSEFModule input, MOSEFModule center, MOSEFModule scale) {
     return mixer(amplifier(input, scale), center);
   }
 
@@ -130,7 +130,7 @@ public class MOSEF {
    * @param scale
    * @return
    */
-  public Module center(Module input, float center, Module scale) {
+  public MOSEFModule center(MOSEFModule input, float center, MOSEFModule scale) {
     return center(input, constant(center), scale);
   }
 
@@ -142,7 +142,7 @@ public class MOSEF {
    * @param scale
    * @return
    */
-  public Module center(Module input, Module center, float scale) {
+  public MOSEFModule center(MOSEFModule input, MOSEFModule center, float scale) {
     return center(input, center, constant(scale));
   }
 
@@ -154,7 +154,7 @@ public class MOSEF {
    * @param scale
    * @return
    */
-  public Module center(Module input, float center, float scale) {
+  public MOSEFModule center(MOSEFModule input, float center, float scale) {
     return center(input, constant(center), constant(scale));
   }
 
@@ -165,7 +165,7 @@ public class MOSEF {
    * @param n
    * @return
    */
-  public Module[] split(Module input, int n) {
+  public MOSEFModule[] split(MOSEFModule input, int n) {
     return Splitter.split(input, n);
   }
 
@@ -176,7 +176,7 @@ public class MOSEF {
    * @param limit
    * @return
    */
-  public Module limiter(Module input, Module limit) {
+  public MOSEFModule limiter(MOSEFModule input, MOSEFModule limit) {
     return new Limiter(settings, input, limit);
   }
 
@@ -186,7 +186,7 @@ public class MOSEF {
    * @param sample
    * @return
    */
-  public Module sample(float[] sample) {
+  public MOSEFModule sample(float[] sample) {
     return new Sample(settings, sample);
   }
 
@@ -196,7 +196,7 @@ public class MOSEF {
    * @param file
    * @return
    */
-  public Module sample(File file) {
+  public MOSEFModule sample(File file) {
     try {
       return SampleFactory.fromFile(settings, file, false);
     } catch (IOException e) {
@@ -210,12 +210,12 @@ public class MOSEF {
   /**
    * Create a feedback module which mixes feedback with the input module. When the source for the
    * feedback is ready, it should be added to the module using the
-   * {@link Feedback#setFeedbackSource(Module)}.
+   * {@link Feedback#setFeedbackSource(MOSEFModule)}.
    * 
    * @param input
    * @return
    */
-  public Feedback feedback(Module input) {
+  public Feedback feedback(MOSEFModule input) {
     return new Feedback(settings, input);
   }
 
@@ -228,7 +228,7 @@ public class MOSEF {
    * @param maxDelay
    * @return
    */
-  public Module delay(Module input, Module delay, float maxDelay) {
+  public MOSEFModule delay(MOSEFModule input, MOSEFModule delay, float maxDelay) {
     return new Delay(settings, input, delay, maxDelay);
   }
 
@@ -239,59 +239,59 @@ public class MOSEF {
    * @param delay
    * @return
    */
-  public Module delay(Module input, float delay) {
+  public MOSEFModule delay(MOSEFModule input, float delay) {
     return delay(input, constant(delay), delay);
   }
   
-  public Module sine(Module frequency) {
+  public MOSEFModule sine(MOSEFModule frequency) {
     return new Oscillator(settings, frequency,
         new SampledWave(settings, t -> (float) Math.sin(2 * (float) Math.PI * t), 256));
   }
 
-  public Module sine(float frequency) {
+  public MOSEFModule sine(float frequency) {
     return sine(constant(frequency));
   }
 
-  public Module square(Module frequency) {
+  public MOSEFModule square(MOSEFModule frequency) {
     return new Oscillator(settings, frequency, new SquareWave(settings));
   }
 
-  public Module square(float frequency) {
+  public MOSEFModule square(float frequency) {
     return square(constant(frequency));
   }
 
-  public Module triangle(Module frequency) {
+  public MOSEFModule triangle(MOSEFModule frequency) {
     return new Oscillator(settings, frequency, new TriangleWave(settings));
   }
 
-  public Module triangle(float frequency) {
+  public MOSEFModule triangle(float frequency) {
     return triangle(constant(frequency));
   }
 
-  public Module saw(Module frequency) {
+  public MOSEFModule saw(MOSEFModule frequency) {
     return new Oscillator(settings, frequency, new SawWave(settings));
   }
 
-  public Module saw(float frequency) {
+  public MOSEFModule saw(float frequency) {
     return saw(constant(frequency));
   }
 
-  public Module pulse(Module frequency, Module pulsewidth) {
+  public MOSEFModule pulse(MOSEFModule frequency, MOSEFModule pulsewidth) {
     return new Oscillator(settings, frequency, new PulseWave(pulsewidth));
   }
 
-  public Module pulse(float frequency, Module pulsewidth) {
+  public MOSEFModule pulse(float frequency, MOSEFModule pulsewidth) {
     return pulse(constant(frequency), pulsewidth);
   }
 
   private static int[] overtoneRatios = new int[] {2, 3, 4, 6, 8, 10, 12, 16};
 
-  public Module organ(Module baseFrequency, Wave wave, Module... levels) {
+  public MOSEFModule organ(MOSEFModule baseFrequency, Wave wave, MOSEFModule... levels) {
     int numberOfOvertones = levels.length;
 
-    Module[] oscillators = new Module[numberOfOvertones + 1];
+    MOSEFModule[] oscillators = new MOSEFModule[numberOfOvertones + 1];
 
-    Module[] splitFrequencies = split(baseFrequency, numberOfOvertones + 1);
+    MOSEFModule[] splitFrequencies = split(baseFrequency, numberOfOvertones + 1);
     oscillators[0] = new Oscillator(settings, splitFrequencies[0], wave);
 
     for (int i = 1; i <= numberOfOvertones; i++) {
@@ -303,11 +303,11 @@ public class MOSEF {
     return amplifier(mixer(oscillators), constant(0.5f));
   }
 
-  public Module lowPassFilter(Module input, float cutoff) {
+  public MOSEFModule lowPassFilter(MOSEFModule input, float cutoff) {
     return new LowPassFilterFixed(settings, input, cutoff, 512, new HammingWindow(101));
   }
 
-  public Module lowPassFilter(Module input, Module cutoff) {
+  public MOSEFModule lowPassFilter(MOSEFModule input, MOSEFModule cutoff) {
     return new LowPassFilter(settings, input, cutoff, 256, 512, new HammingWindow(101));
   }
 
@@ -320,7 +320,7 @@ public class MOSEF {
    * @param depth
    * @return
    */
-  public Module chorus(Module input, Module rate, Module wetness, Module depth) {
+  public MOSEFModule chorus(MOSEFModule input, MOSEFModule rate, MOSEFModule wetness, MOSEFModule depth) {
     return new Chorus(this, input, rate, wetness, depth);
   }
 
@@ -333,7 +333,7 @@ public class MOSEF {
    * @param depth
    * @return
    */
-  public Module chorus(Module input, Module rate, Module wet) {
+  public MOSEFModule chorus(MOSEFModule input, MOSEFModule rate, MOSEFModule wet) {
     return chorus(input, rate, wet, constant(0.004f)); // Default depth
   }
 
@@ -347,7 +347,7 @@ public class MOSEF {
    * @param max Max time between delays
    * @return
    */
-  public Module echo(Module input, int echos, Module time, float max) {
+  public MOSEFModule echo(MOSEFModule input, int echos, MOSEFModule time, float max) {
     return new Echo(this, input, echos, time, max);
   }
 
@@ -357,7 +357,7 @@ public class MOSEF {
    * @param input
    * @return
    */
-  public Module ensemble(Module input) {
+  public MOSEFModule ensemble(MOSEFModule input) {
     return new Ensemble(this, input);
   }
 
@@ -367,33 +367,33 @@ public class MOSEF {
    * @param input
    * @return
    */
-  public Module reverb(Module input) {
+  public MOSEFModule reverb(MOSEFModule input) {
     return new Reverb(this, input);
   }
 
-  public Module vibrato(Module input, Module rate, Module depth, float maxDepth) {
+  public MOSEFModule vibrato(MOSEFModule input, MOSEFModule rate, MOSEFModule depth, float maxDepth) {
     return new Vibrato(this, input, rate, depth);
   }
 
-  public Module vibrato(Module input, Module rate, Module depth) {
+  public MOSEFModule vibrato(MOSEFModule input, MOSEFModule rate, MOSEFModule depth) {
     return vibrato(input, rate, depth, 0.75f);
   }
 
-  public Module distortion(Module input, Module distortion) {
+  public MOSEFModule distortion(MOSEFModule input, MOSEFModule distortion) {
     return new Distortion(settings, input, distortion);
   }
 
-  public Module noise() {
+  public MOSEFModule noise() {
     return new Noise(settings);
   }
 
-  public void audioOut(Module input) {
+  public void audioOut(MOSEFModule input) {
     Output output = new Output(settings, input);
     this.output = output;
     stopableModules.add(output);
   }
 
-  public Module audioIn() {
+  public MOSEFModule audioIn() {
     Input input = new Input(settings);
     stopableModules.add(input);
     return input;

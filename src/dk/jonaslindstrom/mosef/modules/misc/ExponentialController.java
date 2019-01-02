@@ -1,11 +1,11 @@
 package dk.jonaslindstrom.mosef.modules.misc;
 
-import java.util.Arrays;
-
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import java.util.Arrays;
+import java.util.Map;
 
-public class ExponentialController implements Module {
+public class ExponentialController implements MOSEFModule {
 
 	private float min, max, control;
 	private float[] buffer;
@@ -36,5 +36,10 @@ public class ExponentialController implements Module {
 	public float[] getNextSamples() {
 		return buffer;
 	}
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of();
+  }
 	
 }

@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.sequencers;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Rhythm extends SimpleModule {
@@ -9,8 +9,8 @@ public class Rhythm extends SimpleModule {
 	private int[] rhythm;
 	private int b;
 
-	public Rhythm(MOSEFSettings settings, Module clock, int[] rhythm) {
-		super(settings, clock);
+	public Rhythm(MOSEFSettings settings, MOSEFModule clock, int[] rhythm) {
+		super(settings, "Clock", clock);
 		this.rhythm = rhythm;
 		this.b = 0;
 	}

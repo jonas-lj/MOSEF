@@ -1,10 +1,11 @@
 package dk.jonaslindstrom.mosef.modules.debug;
 
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import java.util.Map;
 
-public class Printer implements Module {
+public class Printer implements MOSEFModule {
 
-	private Module input;
+	private MOSEFModule input;
 	private int frequency;
 	private int counter;
 
@@ -15,7 +16,7 @@ public class Printer implements Module {
 	 * @param input
 	 * @param frequency
 	 */
-	public Printer(Module input, int frequency) {
+	public Printer(MOSEFModule input, int frequency) {
 		this.input = input;
 		this.frequency = frequency;
 		this.counter = 0;
@@ -34,5 +35,10 @@ public class Printer implements Module {
 		}
 		return buffer;
 	}
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of("Input", input);
+  }
 
 }

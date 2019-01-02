@@ -1,6 +1,8 @@
 package dk.jonaslindstrom.mosef.modules;
 
-public interface Module {
+import java.util.Map;
+
+public interface MOSEFModule {
 
 	/**
 	 * Iterate the state of the module and return the output sound buffer.
@@ -9,5 +11,7 @@ public interface Module {
 	 * @return
 	 */
 	public float[] getNextSamples();
+	
+	public Map<String, MOSEFModule> getInputs();
 	
 }

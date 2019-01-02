@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.tuning;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 import dk.jonaslindstrom.mosef.modules.tuning.interpolate.InterpolateFunction;
 import dk.jonaslindstrom.mosef.modules.tuning.tuningfunction.TuningFunction;
@@ -19,9 +19,9 @@ public class GlidingTuner extends SimpleModule implements Tuner {
 	private GliderStatus status;
 	private int note;
 
-	public GlidingTuner(MOSEFSettings settings, Module speed, TuningFunction tuningFunction,
+	public GlidingTuner(MOSEFSettings settings, MOSEFModule speed, TuningFunction tuningFunction,
 			InterpolateFunction interpolateFunction) {
-		super(settings, speed);
+		super(settings, "Speed", speed);
 		this.tuningFunction = tuningFunction;
 		this.interpolateFunction = interpolateFunction;
 		this.frequency = tuningFunction.getFrequency(0);

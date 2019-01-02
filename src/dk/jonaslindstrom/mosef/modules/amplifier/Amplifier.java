@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.amplifier;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 /**
@@ -20,8 +20,8 @@ public class Amplifier extends SimpleModule {
 	 * @param input
 	 * @param level
 	 */
-	public Amplifier(MOSEFSettings settings, Module input, Module level) {
-		super(settings, input, level);
+	public Amplifier(MOSEFSettings settings, MOSEFModule input, MOSEFModule level) {
+		super(settings, "In", input, "Level", level);
 	}
 
 	@Override
@@ -29,7 +29,5 @@ public class Amplifier extends SimpleModule {
 		float level = Math.max(0.0f, inputs[1]);
 		return inputs[0] * level;
 	}
-
-
 
 }

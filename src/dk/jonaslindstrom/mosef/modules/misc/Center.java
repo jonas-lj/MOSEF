@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.misc;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Center extends SimpleModule {
@@ -15,8 +15,8 @@ public class Center extends SimpleModule {
 	 * @param center
 	 * @param amplitude
 	 */
-	public Center(MOSEFSettings settings, Module input, Module center, Module amplitude) {
-		super(settings, input, center, amplitude);
+	public Center(MOSEFSettings settings, MOSEFModule input, MOSEFModule center, MOSEFModule amplitude) {
+		super(settings, "In", input, "Center", center, "Amplitude", amplitude);
 	}
 
 	@Override

@@ -1,12 +1,12 @@
 package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 
 public class PulseWave implements Wave {
 
-	private Module pulseWidth;
+	private MOSEFModule pulseWidth;
 
-	public PulseWave(Module pulseWidth) {
+	public PulseWave(MOSEFModule pulseWidth) {
 		this.pulseWidth = pulseWidth;
 	}
 	

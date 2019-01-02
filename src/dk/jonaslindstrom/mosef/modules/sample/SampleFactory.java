@@ -1,5 +1,8 @@
 package dk.jonaslindstrom.mosef.modules.sample;
 
+import dk.jonaslindstrom.mosef.MOSEFSettings;
+import dk.jonaslindstrom.mosef.memory.SampleConverter;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import java.io.File;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -7,10 +10,6 @@ import java.nio.FloatBuffer;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.memory.SampleConverter;
-import dk.jonaslindstrom.mosef.modules.Module;
 
 public class SampleFactory {
 
@@ -35,7 +34,7 @@ public class SampleFactory {
 		return new Sample(settings, frames.array(), wrap);
 	}
 	
-	public static Sample fromModule(MOSEFSettings settings, Module input, int samples, boolean wrap) {
+	public static Sample fromModule(MOSEFSettings settings, MOSEFModule input, int samples, boolean wrap) {
 		FloatBuffer buffer = FloatBuffer.allocate(samples);
 		for (int i = 0; i < samples / settings.getBufferSize(); i++) {
 			buffer.put(input.getNextSamples());

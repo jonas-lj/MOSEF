@@ -2,6 +2,7 @@ package dk.jonaslindstrom.mosef.modules.noise;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
+import java.util.Map;
 
 /**
  * This module can create white noise using the {@link Math#random} method.
@@ -12,7 +13,7 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 public class Noise extends SimpleModule {
 
 	public Noise(MOSEFSettings settings) {
-		super(settings);
+		super(settings, Map.of());
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.output;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.StopableModule;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
@@ -13,7 +13,7 @@ import javax.sound.sampled.SourceDataLine;
 
 public class Output implements StopableModule, OutputModule {
 
-  private Module module;
+  private MOSEFModule module;
   private boolean running;
   private MOSEFSettings settings;
 
@@ -23,7 +23,7 @@ public class Output implements StopableModule, OutputModule {
    * @param settings
    * @param input
    */
-  public Output(MOSEFSettings settings, Module input) {
+  public Output(MOSEFSettings settings, MOSEFModule input) {
     if (settings.getBitRate() != 16) {
       throw new UnsupportedOperationException("For now, only 16 bit output is allowed");
     }

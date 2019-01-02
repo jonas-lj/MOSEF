@@ -2,20 +2,21 @@ package dk.jonaslindstrom.mosef.modules.filter;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.memory.SampleMemory;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.filter.filters.LowPassDiscreteFilterFactory;
 import dk.jonaslindstrom.mosef.modules.filter.filters.windows.HammingWindow;
 import dk.jonaslindstrom.mosef.modules.filter.filters.windows.Window;
+import java.util.Map;
 
-public class LowPassFilterFixed implements Module {
+public class LowPassFilterFixed implements MOSEFModule {
 
 	private float[] discreteFilter;
 	private SampleMemory sampleMemory;
-	private Module input;
+	private MOSEFModule input;
 	private int length;
 	private float[] buffer;
 
-	public LowPassFilterFixed(MOSEFSettings settings, Module input, float cutoff, int length,
+	public LowPassFilterFixed(MOSEFSettings settings, MOSEFModule input, float cutoff, int length,
 			Window window) {
 		this.buffer = new float[settings.getBufferSize()];
 		this.input = input;
@@ -26,7 +27,7 @@ public class LowPassFilterFixed implements Module {
 		this.sampleMemory = new SampleMemory(length);
 	}
 
-	public LowPassFilterFixed(MOSEFSettings settings, Module input, float cutoff) {
+	public LowPassFilterFixed(MOSEFSettings settings, MOSEFModule input, float cutoff) {
 		this(settings, input, cutoff, 101, new HammingWindow(101));
 	}
 
@@ -44,5 +45,10 @@ public class LowPassFilterFixed implements Module {
 		}
 		return buffer;
 	}
+
+  @Override
+  public Map<String, MOSEFModule> getInputs() {
+    return Map.of("In", input);
+  }
 
 }

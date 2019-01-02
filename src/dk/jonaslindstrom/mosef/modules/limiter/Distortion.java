@@ -1,13 +1,13 @@
 package dk.jonaslindstrom.mosef.modules.limiter;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.MOSEFModule;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Distortion extends SimpleModule {
 
-	public Distortion(MOSEFSettings settings, Module input, Module distortion) {
-		super(settings, input, distortion);
+	public Distortion(MOSEFSettings settings, MOSEFModule input, MOSEFModule distortion) {
+		super(settings, "In", input, "Distortion", distortion);
 	}
 
 	@Override
