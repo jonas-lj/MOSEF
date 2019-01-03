@@ -12,15 +12,15 @@ import java.util.Map;
  * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
  *
  */
-public abstract class SimpleModule implements MOSEFModule {
+public abstract class SimpleModule implements Module {
 
   protected MOSEFSettings settings;
-  protected Map<String, MOSEFModule> inputs;
-  private float[] buffer;
-  private float[][] inputBuffers;
+  protected Map<String, Module> inputs;
+  private double[] buffer;
+  private double[][] inputBuffers;
 
-  private static Map<String, MOSEFModule> buildMap(String prefix, List<MOSEFModule> modules) {
-    Map<String, MOSEFModule> map = new HashMap<>();
+  private static Map<String, Module> buildMap(String prefix, List<Module> modules) {
+    Map<String, Module> map = new HashMap<>();
     for (int i = 0; i < modules.size(); i++) {
       String name = prefix + i;
       map.put(name, modules.get(i));
@@ -28,29 +28,29 @@ public abstract class SimpleModule implements MOSEFModule {
     return map;
   }
 
-  protected SimpleModule(MOSEFSettings settings, String prefix, List<MOSEFModule> modules) {
+  protected SimpleModule(MOSEFSettings settings, String prefix, List<Module> modules) {
     this(settings, buildMap(prefix, modules));
   }
 
-  protected SimpleModule(MOSEFSettings settings, Map<String, MOSEFModule> inputs) {
+  protected SimpleModule(MOSEFSettings settings, Map<String, Module> inputs) {
     this.settings = settings;
     this.inputs = inputs;
 
-    this.buffer = new float[settings.getBufferSize()];
-    this.inputBuffers = new float[inputs.size()][];
+    this.buffer = new double[settings.getBufferSize()];
+    this.inputBuffers = new double[inputs.size()][];
   }
 
-  protected SimpleModule(MOSEFSettings settings, String name1, MOSEFModule input1, String name2,
-      MOSEFModule input2, String name3, MOSEFModule input3) {
+  protected SimpleModule(MOSEFSettings settings, String name1, Module input1, String name2,
+      Module input2, String name3, Module input3) {
     this(settings, Map.of(name1, input1, name2, input2, name3, input3));
   }
 
-  protected SimpleModule(MOSEFSettings settings, String name1, MOSEFModule input1, String name2,
-      MOSEFModule input2) {
+  protected SimpleModule(MOSEFSettings settings, String name1, Module input1, String name2,
+      Module input2) {
     this(settings, Map.of(name1, input1, name2, input2));
   }
 
-  protected SimpleModule(MOSEFSettings settings, String name1, MOSEFModule input1) {
+  protected SimpleModule(MOSEFSettings settings, String name1, Module input1) {
     this(settings, Map.of(name1, input1));
   }
 
@@ -61,18 +61,18 @@ public abstract class SimpleModule implements MOSEFModule {
    * @param inputs
    * @return
    */
-  public abstract float getNextSample(float... inputs);
+  public abstract double getNextSample(double... inputs);
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
 
     int i = 0;
-    for (MOSEFModule input : inputs.values()) {
+    for (Module input : inputs.values()) {
       inputBuffers[i++] = input.getNextSamples();
     }
 
     for (int j = 0; j < settings.getBufferSize(); j++) {
-      float[] current = new float[inputs.size()];
+      double[] current = new double[inputs.size()];
       for (int k = 0; k < inputs.size(); k++) {
         current[k] = inputBuffers[k][j];
       }
@@ -83,7 +83,7 @@ public abstract class SimpleModule implements MOSEFModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return inputs;
   }
 

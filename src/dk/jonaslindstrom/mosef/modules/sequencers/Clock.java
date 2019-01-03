@@ -1,14 +1,14 @@
 package dk.jonaslindstrom.mosef.modules.sequencers;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Clock extends SimpleModule {
 
   private int state;
 
-  public Clock(MOSEFSettings settings, MOSEFModule delta) {
+  public Clock(MOSEFSettings settings, Module delta) {
     super(settings, "Delta", delta);
     this.state = 0;
   }
@@ -18,7 +18,7 @@ public class Clock extends SimpleModule {
   }
 
   @Override
-  public float getNextSample(float... inputs) {
+  public double getNextSample(double... inputs) {
     state++;
     if (state == settings.getSampleRate() * inputs[0]) {
       reset();

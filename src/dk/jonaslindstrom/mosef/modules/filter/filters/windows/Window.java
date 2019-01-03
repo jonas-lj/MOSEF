@@ -4,6 +4,6 @@ public interface Window {
 
   public int getLength();
 
-  public float getCoefficient(int k);
+  public double getCoefficient(int k);
 
 }

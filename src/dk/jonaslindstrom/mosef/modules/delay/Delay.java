@@ -2,7 +2,7 @@ package dk.jonaslindstrom.mosef.modules.delay;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.memory.SampleMemory;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 /**
@@ -26,13 +26,13 @@ public class Delay extends SimpleModule {
    * @param memory Max delay time in seconds.
    * @param sampleRate The number of samples per second.
    */
-  public Delay(MOSEFSettings settings, MOSEFModule input, MOSEFModule delay, float memory) {
+  public Delay(MOSEFSettings settings, Module input, Module delay, double memory) {
     super(settings, "In", input, "Delay", delay);
     this.sampleMemory = new SampleMemory((int) (memory * settings.getSampleRate()));
   }
 
   @Override
-  public float getNextSample(float... inputs) {
+  public double getNextSample(double... inputs) {
 
     sampleMemory.push(inputs[0]);
 

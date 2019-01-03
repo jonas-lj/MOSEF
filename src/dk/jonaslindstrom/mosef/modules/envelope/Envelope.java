@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.envelope;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 import java.util.Map;
 
@@ -11,8 +11,8 @@ public class Envelope extends SimpleModule {
     ON, OFF, RELEASE
   };
 
-  private float t = 0.0f;
-  private float dt;
+  private double t = 0.0f;
+  private double dt;
   private EnvelopeStatus status = EnvelopeStatus.OFF;
 
   /**
@@ -25,21 +25,21 @@ public class Envelope extends SimpleModule {
    * @param release
    * @param samplesPerSecond
    */
-  public Envelope(MOSEFSettings settings, MOSEFModule attack, MOSEFModule decay,
-      MOSEFModule sustainLevel, MOSEFModule release, MOSEFModule gate) {
+  public Envelope(MOSEFSettings settings, Module attack, Module decay,
+      Module sustainLevel, Module release, Module gate) {
     super(settings, Map.of("Attack", attack, "Decay", decay, "Sustain", sustainLevel, "Release",
         release, "Gate", gate));
     this.dt = 1.0f / settings.getSampleRate();
   }
 
   @Override
-  public float getNextSample(float... inputs) {
+  public double getNextSample(double... inputs) {
 
-    float a = inputs[0];
-    float d = inputs[1];
-    float s = inputs[2];
-    float r = inputs[3];
-    float g = inputs[4];
+    double a = inputs[0];
+    double d = inputs[1];
+    double s = inputs[2];
+    double r = inputs[3];
+    double g = inputs[4];
 
     switch (this.status) {
       case OFF:
@@ -83,7 +83,7 @@ public class Envelope extends SimpleModule {
     }
   }
 
-  private float linearInterpolate(float dx, float dy, float x) {
+  private double linearInterpolate(double dx, double dy, double x) {
     return x * dy / dx;
   }
 

@@ -1,8 +1,8 @@
 package dk.jonaslindstrom.mosef.modules.tuning;
 
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 
-public interface Tuner extends MOSEFModule {
+public interface Tuner extends Module {
 
   public void setNote(int note);
 

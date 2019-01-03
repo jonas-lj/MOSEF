@@ -1,27 +1,27 @@
 package dk.jonaslindstrom.mosef.modules.oscillator;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Map;
 
-public class ExactOscillator implements MOSEFModule {
+public class ExactOscillator implements Module {
 
   private MOSEFSettings settings;
   private int halfWaveLength;
   private int i;
   private boolean low;
-  private float[] buffer;
+  private double[] buffer;
 
   public ExactOscillator(MOSEFSettings settings, int halfWaveLength) {
     this.settings = settings;
     this.halfWaveLength = halfWaveLength;
     this.i = 0;
     this.low = true;
-    this.buffer = new float[settings.getBufferSize()];
+    this.buffer = new double[settings.getBufferSize()];
   }
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
     for (int j = 0; j < settings.getBufferSize(); j++) {
       buffer[j] = low ? -.99f : .99f;
       i++;
@@ -34,7 +34,7 @@ public class ExactOscillator implements MOSEFModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of();
   }
 

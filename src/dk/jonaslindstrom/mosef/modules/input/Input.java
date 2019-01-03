@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.input;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.StopableModule;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
@@ -12,12 +12,12 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.TargetDataLine;
 
-public class Input implements MOSEFModule, StopableModule {
+public class Input implements Module, StopableModule {
 
   private MOSEFSettings settings;
   private TargetDataLine targetLine;
   private int bufferSize;
-  private Queue<float[]> buffers;
+  private Queue<double[]> buffers;
   private boolean running = false;
   private Thread inputThread;
 
@@ -44,9 +44,9 @@ public class Input implements MOSEFModule, StopableModule {
         public void run() {
           ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize);
           ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
-          float scale = (float) Math.pow(2, -settings.getBitRate() - 1);
+          double scale = (double) Math.pow(2, -settings.getBitRate() - 1);
           byte[] bytes = new byte[bufferSize];
-          float[] buffer = new float[settings.getBufferSize()];
+          double[] buffer = new double[settings.getBufferSize()];
 
           while (running) {
             targetLine.read(bytes, 0, bytes.length);
@@ -68,7 +68,7 @@ public class Input implements MOSEFModule, StopableModule {
   }
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
     if (!running) {
       running = true;
       targetLine.start();
@@ -76,7 +76,7 @@ public class Input implements MOSEFModule, StopableModule {
     }
 
     if (buffers.isEmpty()) {
-      return new float[settings.getBufferSize()];
+      return new double[settings.getBufferSize()];
     } else {
       return buffers.poll();
     }
@@ -88,7 +88,7 @@ public class Input implements MOSEFModule, StopableModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of();
   }
 

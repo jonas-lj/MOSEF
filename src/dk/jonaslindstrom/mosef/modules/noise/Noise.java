@@ -17,8 +17,8 @@ public class Noise extends SimpleModule {
 	}
 	
 	@Override
-	public float getNextSample(float ... inputs) {
-		return (float) (Math.random() * 2.0f) - 1.0f;
+	public double getNextSample(double ... inputs) {
+		return (double) (Math.random() * 2.0f) - 1.0f;
 	}
 
 }

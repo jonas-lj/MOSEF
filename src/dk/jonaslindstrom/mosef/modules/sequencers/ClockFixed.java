@@ -20,7 +20,7 @@ public class ClockFixed extends SimpleModule {
   }
 
   @Override
-  public float getNextSample(float... inputs) {
+  public double getNextSample(double... inputs) {
     state++;
     if (state == delta) {
       reset();

@@ -31,13 +31,13 @@ public class LowPassDiscreteFilterFactory implements DiscreteFilterFactory {
   }
 
   @Override
-  public float[] getSamples() {
+  public double[] getSamples() {
     int shift = (length - 1) / 2;
 
-    float[] a = new float[length];
+    double[] a = new double[length];
     for (int i = 0; i < a.length; i++) {
       if (i != shift) {
-        a[i] = (float) (Math.sin(2 * Math.PI * cutoff * (i - shift) / samplerate)
+        a[i] = (double) (Math.sin(2 * Math.PI * cutoff * (i - shift) / samplerate)
             / (Math.PI * (i - shift)));
       } else {
         a[i] = 2.0f * cutoff / samplerate;

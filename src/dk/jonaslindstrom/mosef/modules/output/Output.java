@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.output;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.StopableModule;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
@@ -13,7 +13,7 @@ import javax.sound.sampled.SourceDataLine;
 
 public class Output implements StopableModule, OutputModule {
 
-  private MOSEFModule module;
+  private Module module;
   private boolean running;
   private MOSEFSettings settings;
 
@@ -23,7 +23,7 @@ public class Output implements StopableModule, OutputModule {
    * @param settings
    * @param input
    */
-  public Output(MOSEFSettings settings, MOSEFModule input) {
+  public Output(MOSEFSettings settings, Module input) {
     if (settings.getBitRate() != 16) {
       throw new UnsupportedOperationException("For now, only 16 bit output is allowed");
     }
@@ -33,6 +33,7 @@ public class Output implements StopableModule, OutputModule {
 
   @Override
   public void start() {
+    
     final int byteRate = settings.getBitRate() / 8;
 
     AudioFormat audioFormat =
@@ -52,14 +53,14 @@ public class Output implements StopableModule, OutputModule {
         public void run() {
           ByteBuffer byteBuffer = ByteBuffer.allocate(settings.getBufferSize() * byteRate);
           ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
-          float scale = (float) Math.pow(2, settings.getBitRate() - 1);
+          double scale = Math.pow(2, settings.getBitRate() - 1);
 
-          float[] buffer;
+          double[] buffer;
 
           while (running) {
             buffer = module.getNextSamples();
             if (buffer == null) {
-              buffer = new float[settings.getBufferSize()];
+              buffer = new double[settings.getBufferSize()];
             }
 
             shortBuffer.rewind();

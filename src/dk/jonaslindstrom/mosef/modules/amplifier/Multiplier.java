@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.amplifier;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 /**
@@ -20,12 +20,12 @@ public class Multiplier extends SimpleModule {
    * @param input
    * @param level
    */
-  public Multiplier(MOSEFSettings settings, MOSEFModule input, MOSEFModule level) {
+  public Multiplier(MOSEFSettings settings, Module input, Module level) {
     super(settings, "In", input, "Level", level);
   }
 
   @Override
-  public float getNextSample(float... inputs) {
+  public double getNextSample(double... inputs) {
     return inputs[0] * inputs[1];
   }
 

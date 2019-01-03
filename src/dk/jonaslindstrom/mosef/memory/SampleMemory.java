@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.memory;
 
 /**
- * Instances of this class can store a set of samples (floats) in a queue data structure with fixed
+ * Instances of this class can store a set of samples (doubles) in a queue data structure with fixed
  * size. If the capacity is reached, the oldest entries are replaced.
  * 
  * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
@@ -9,11 +9,11 @@ package dk.jonaslindstrom.mosef.memory;
  */
 public class SampleMemory {
 
-  private float[] memory;
+  private double[] memory;
   private int pointer;
 
   public SampleMemory(int size) {
-    this.memory = new float[size];
+    this.memory = new double[size];
     this.pointer = 0;
   }
 
@@ -23,7 +23,7 @@ public class SampleMemory {
    * 
    * @param value
    */
-  public void push(float value) {
+  public void push(double value) {
     memory[pointer] = value;
     pointer = (pointer + 1) % memory.length;
   }
@@ -43,7 +43,7 @@ public class SampleMemory {
    * @param n
    * @return
    */
-  public float get(int n) {
+  public double get(int n) {
     int i = (pointer - n + memory.length) % memory.length;
     return memory[i];
   }

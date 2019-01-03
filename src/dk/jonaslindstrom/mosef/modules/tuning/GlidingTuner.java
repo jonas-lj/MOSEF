@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.tuning;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 import dk.jonaslindstrom.mosef.modules.tuning.interpolate.InterpolateFunction;
 import dk.jonaslindstrom.mosef.modules.tuning.tuningfunction.TuningFunction;
@@ -14,12 +14,12 @@ public class GlidingTuner extends SimpleModule implements Tuner {
 
   private TuningFunction tuningFunction;
   private InterpolateFunction interpolateFunction;
-  private float frequency;
-  private float t, start, goal;
+  private double frequency;
+  private double t, start, goal;
   private GliderStatus status;
   private int note;
 
-  public GlidingTuner(MOSEFSettings settings, MOSEFModule speed, TuningFunction tuningFunction,
+  public GlidingTuner(MOSEFSettings settings, Module speed, TuningFunction tuningFunction,
       InterpolateFunction interpolateFunction) {
     super(settings, "Speed", speed);
     this.tuningFunction = tuningFunction;
@@ -42,11 +42,11 @@ public class GlidingTuner extends SimpleModule implements Tuner {
   }
 
   @Override
-  public float getNextSample(float... inputs) {
+  public double getNextSample(double... inputs) {
 
     // TODO: Use a trigger instead
 
-    float dt = inputs[0];
+    double dt = inputs[0];
     switch (status) {
       case ON:
         this.t += dt;

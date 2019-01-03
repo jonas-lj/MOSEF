@@ -9,7 +9,7 @@ import java.util.Map;
 public class SimpleTuner extends SimpleModule implements Tuner {
 
   private TuningFunction tuningFunction;
-  private float frequency;
+  private double frequency;
   private int note;
 
   public SimpleTuner(MOSEFSettings settings, TuningFunction tuningFunction) {
@@ -34,7 +34,7 @@ public class SimpleTuner extends SimpleModule implements Tuner {
   }
 
   @Override
-  public float getNextSample(float... inputs) {
+  public double getNextSample(double... inputs) {
     return this.frequency;
   }
 

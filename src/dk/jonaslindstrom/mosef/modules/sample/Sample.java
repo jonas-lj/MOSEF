@@ -1,12 +1,12 @@
 package dk.jonaslindstrom.mosef.modules.sample;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
+import java.nio.DoubleBuffer;
 import java.nio.ShortBuffer;
 import java.util.Arrays;
 import java.util.Map;
@@ -16,26 +16,26 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class Sample implements MOSEFModule {
+public class Sample implements Module {
 
   private MOSEFSettings settings;
-  private FloatBuffer sampleBuffer;
-  private float[] buffer;
+  private DoubleBuffer sampleBuffer;
+  private double[] buffer;
   private boolean wrap;
 
-  public Sample(MOSEFSettings settings, float[] sample, boolean wrap) {
+  public Sample(MOSEFSettings settings, double[] sample, boolean wrap) {
     this.settings = settings;
-    this.sampleBuffer = FloatBuffer.wrap(sample);
-    this.buffer = new float[settings.getBufferSize()];
+    this.sampleBuffer = DoubleBuffer.wrap(sample);
+    this.buffer = new double[settings.getBufferSize()];
     this.wrap = wrap;
   }
 
-  public Sample(MOSEFSettings settings, float[] sample) {
+  public Sample(MOSEFSettings settings, double[] sample) {
     this(settings, sample, false);
   }
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
 
     if (!wrap) {
       // Sample play once
@@ -63,7 +63,7 @@ public class Sample implements MOSEFModule {
   }
 
   public void save(File file) throws UnsupportedAudioFileException, IOException {
-    float scale = (float) Math.pow(2, settings.getBitRate() - 1);
+    double scale = Math.pow(2, settings.getBitRate() - 1);
     int byteRate = settings.getBitRate() / 8;
 
     ByteBuffer byteBuffer = ByteBuffer.allocate(sampleBuffer.capacity() * byteRate);
@@ -89,7 +89,7 @@ public class Sample implements MOSEFModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of();
   }
 

@@ -1,13 +1,13 @@
 package dk.jonaslindstrom.mosef.modules.misc;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Arrays;
 import java.util.Map;
 
-public class Constant implements MOSEFModule {
+public class Constant implements Module {
 
-  private float[] buffer;
+  private double[] buffer;
 
   /**
    * Create a new constant module with the given value. Every time a sample is requested the
@@ -15,18 +15,18 @@ public class Constant implements MOSEFModule {
    * 
    * @param value
    */
-  public Constant(MOSEFSettings settings, float value) {
-    this.buffer = new float[settings.getBufferSize()];
+  public Constant(MOSEFSettings settings, double value) {
+    this.buffer = new double[settings.getBufferSize()];
     Arrays.fill(buffer, value);
   }
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
     return buffer;
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of();
   }
 

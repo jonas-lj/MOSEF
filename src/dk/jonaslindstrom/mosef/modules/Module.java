@@ -2,7 +2,7 @@ package dk.jonaslindstrom.mosef.modules;
 
 import java.util.Map;
 
-public interface MOSEFModule {
+public interface Module {
 
   /**
    * Iterate the state of the module and return the output sound buffer. Input buffers should be
@@ -10,8 +10,8 @@ public interface MOSEFModule {
    * 
    * @return
    */
-  public float[] getNextSamples();
+  public double[] getNextSamples();
 
-  public Map<String, MOSEFModule> getInputs();
+  public Map<String, Module> getInputs();
 
 }

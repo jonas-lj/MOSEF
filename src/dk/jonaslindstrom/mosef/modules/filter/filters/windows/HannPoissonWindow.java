@@ -16,11 +16,11 @@ public class HannPoissonWindow implements Window {
   }
 
   @Override
-  public float getCoefficient(int k) {
+  public double getCoefficient(int k) {
     int m = (this.length - 1) / 2;
 
     // No need to use wavetable - windows are just called once when creating a filter.
-    return (float) (0.5f * (1 - Math.cos(Math.PI * k / m)) * Math.exp(alpha * Math.abs(k - m) / m));
+    return (double) (0.5f * (1 - Math.cos(Math.PI * k / m)) * Math.exp(alpha * Math.abs(k - m) / m));
   }
 
 }

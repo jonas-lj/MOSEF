@@ -9,7 +9,7 @@ public class SawWave extends SimpleWave {
   }
 
   @Override
-  public float getSample(float t) {
+  public double getSample(double t) {
     if (t < 0.5f) {
       return 2.0f * t;
     } else {

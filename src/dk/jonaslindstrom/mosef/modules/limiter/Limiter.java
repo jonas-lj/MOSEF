@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.limiter;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 /**
@@ -13,14 +13,14 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 public class Limiter extends SimpleModule {
 
 
-  public Limiter(MOSEFSettings settings, MOSEFModule input, MOSEFModule limit) {
+  public Limiter(MOSEFSettings settings, Module input, Module limit) {
     super(settings, "In", input, "Limit", limit);
   }
 
   @Override
-  public float getNextSample(float... inputs) {
-    float input = inputs[0];
-    float limit = inputs[1];
+  public double getNextSample(double... inputs) {
+    double input = inputs[0];
+    double limit = inputs[1];
 
     if (input > limit) {
       return limit;

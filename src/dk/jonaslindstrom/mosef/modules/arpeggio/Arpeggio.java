@@ -1,19 +1,19 @@
 package dk.jonaslindstrom.mosef.modules.arpeggio;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Arpeggio implements MOSEFModule {
+public class Arpeggio implements Module {
 
-  private MOSEFModule speed;
-  private MOSEFModule[] tones;
+  private Module speed;
+  private Module[] tones;
   private int currentTone;
   private double t;
   private MOSEFSettings settings;
 
-  public Arpeggio(MOSEFSettings settings, MOSEFModule speed, MOSEFModule... tones) {
+  public Arpeggio(MOSEFSettings settings, Module speed, Module... tones) {
     this.speed = speed;
     this.settings = settings;
     this.tones = tones;
@@ -23,13 +23,13 @@ public class Arpeggio implements MOSEFModule {
   }
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
 
-    float[] buffer = new float[settings.getBufferSize()];
+    double[] buffer = new double[settings.getBufferSize()];
 
-    float[] speed = this.speed.getNextSamples();
+    double[] speed = this.speed.getNextSamples();
 
-    float[][] tones = new float[this.tones.length][];
+    double[][] tones = new double[this.tones.length][];
     for (int j = 0; j < tones.length; j++) {
       tones[j] = this.tones[j].getNextSamples();
     }
@@ -47,11 +47,11 @@ public class Arpeggio implements MOSEFModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
-    Map<String, MOSEFModule> inputsMap = new LinkedHashMap<>();
+  public Map<String, Module> getInputs() {
+    Map<String, Module> inputsMap = new LinkedHashMap<>();
     inputsMap.put("Speed", speed);
     int i = 0;
-    for (MOSEFModule tone : tones) {
+    for (Module tone : tones) {
       inputsMap.put("Tone" + i, tone);
     }
     return inputsMap;

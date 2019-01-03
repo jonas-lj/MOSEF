@@ -18,8 +18,8 @@ public class MovingAverageFilterFactory implements DiscreteFilterFactory {
   }
 
   @Override
-  public float[] getSamples() {
-    float[] a = new float[length];
+  public double[] getSamples() {
+    double[] a = new double[length];
     for (int k = 0; k < length; k++) {
       a[k] = 1.0f / length;
     }

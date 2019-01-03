@@ -9,7 +9,7 @@ public class TriangleWave extends SimpleWave {
   }
 
   @Override
-  public float getSample(float t) {
+  public double getSample(double t) {
     if (t < 0.25f) {
       return 4.0f * t;
     } else if (t < 0.75f) {

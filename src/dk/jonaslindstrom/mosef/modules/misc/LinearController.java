@@ -1,19 +1,19 @@
 package dk.jonaslindstrom.mosef.modules.misc;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Arrays;
 import java.util.Map;
 
-public class LinearController implements MOSEFModule {
+public class LinearController implements Module {
 
-  private float min, max, control, value;
-  private float[] buffer;
+  private double min, max, control, value;
+  private double[] buffer;
 
-  public LinearController(MOSEFSettings settings, float min, float max) {
+  public LinearController(MOSEFSettings settings, double min, double max) {
     this.min = min;
     this.max = max;
-    this.buffer = new float[settings.getBufferSize()];
+    this.buffer = new double[settings.getBufferSize()];
     setController(0.0f);
   }
 
@@ -22,23 +22,23 @@ public class LinearController implements MOSEFModule {
    * 
    * @param value
    */
-  public void setController(float c) {
+  public void setController(double c) {
     this.control = c;
     this.value = min + (max - min) * control;
   }
 
-  public float getControl() {
+  public double getControl() {
     return control;
   }
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
     Arrays.fill(buffer, value);
     return buffer;
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of();
   }
 }

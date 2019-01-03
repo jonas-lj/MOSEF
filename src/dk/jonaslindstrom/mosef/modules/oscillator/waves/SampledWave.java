@@ -2,42 +2,42 @@ package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import java.awt.geom.Point2D;
-import java.util.function.Function;
+import java.util.function.DoubleUnaryOperator;
 
 public class SampledWave extends SimpleWave {
 
-  private Point2D.Float[] samplePoints;
-  private float[] slopes;
+  private Point2D.Double[] samplePoints;
+  private double[] slopes;
 
-  public SampledWave(MOSEFSettings settings, Function<Float, Float> function, int samples) {
+  public SampledWave(MOSEFSettings settings, DoubleUnaryOperator function, int samples) {
     super(settings);
     cacheSamplePoints(function, samples);
     cacheSlopes();
   }
 
-  private void cacheSamplePoints(Function<Float, Float> function, int samples) {
-    this.samplePoints = new Point2D.Float[samples];
+  private void cacheSamplePoints(DoubleUnaryOperator function, int samples) {
+    this.samplePoints = new Point2D.Double[samples];
     for (int i = 0; i < samples; i++) {
-      float x = 1.0f * i / (samples - 1);
-      this.samplePoints[i] = new Point2D.Float(x, function.apply(x));
+      double x = 1.0f * i / (samples - 1);
+      this.samplePoints[i] = new Point2D.Double(x, function.applyAsDouble(x));
     }
   }
 
   private void cacheSlopes() {
-    this.slopes = new float[samplePoints.length - 1];
+    this.slopes = new double[samplePoints.length - 1];
     for (int i = 0; i < samplePoints.length - 1; i++) {
-      float dy = (float) (samplePoints[i + 1].getY() - samplePoints[i].getY());
-      float dx = (float) (samplePoints[i + 1].getX() - samplePoints[i].getX());
+      double dy = samplePoints[i + 1].getY() - samplePoints[i].getY();
+      double dx = samplePoints[i + 1].getX() - samplePoints[i].getX();
       slopes[i] = (dy / dx);
     }
   }
 
   @Override
-  public float getSample(float t) {
+  public double getSample(double t) {
     return interpolate(t);
   }
 
-  private float interpolate(double x) {
+  private double interpolate(double x) {
     int i;
     for (i = 0; i < samplePoints.length - 1; i++) {
       if (samplePoints[i].getX() > x) {
@@ -45,7 +45,7 @@ public class SampledWave extends SimpleWave {
       }
     }
     i--;
-    return (float) (samplePoints[i].getY() + (x - samplePoints[i].getX()) * slopes[i]);
+    return samplePoints[i].getY() + (x - samplePoints[i].getX()) * slopes[i];
   }
 
 }

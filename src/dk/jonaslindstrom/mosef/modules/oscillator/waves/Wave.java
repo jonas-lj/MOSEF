@@ -15,6 +15,6 @@ public interface Wave {
    * @param t
    * @return
    */
-  public float[] getSamples(float[] t);
+  public double[] getSamples(double[] t);
 
 }

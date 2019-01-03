@@ -2,25 +2,25 @@ package dk.jonaslindstrom.mosef.modules.modulation;
 
 import dk.jonaslindstrom.mosef.MOSEF;
 import dk.jonaslindstrom.mosef.modules.CompositeModule;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Map;
 
 public class Reverb extends CompositeModule {
 
-  private MOSEFModule input;
+  private Module input;
 
-  public Reverb(MOSEF mosef, MOSEFModule input) {
+  public Reverb(MOSEF mosef, Module input) {
     super(mosef);
     this.input = input;
   }
 
   @Override
-  public MOSEFModule buildModule(MOSEF mosef) {
+  public Module buildModule(MOSEF mosef) {
     int n = 50;
-    MOSEFModule[] delays = new MOSEFModule[n];
-    MOSEFModule[] split = mosef.split(input, n + 1);
+    Module[] delays = new Module[n];
+    Module[] split = mosef.split(input, n + 1);
     for (int i = 1; i <= n; i++) {
-      float time = (float) Math.random();
+      double time = (double) Math.random();
       delays[i - 1] =
           mosef.amplifier(mosef.delay(split[i], mosef.constant(time), time), 0.5f * (1.0f - time));
     }
@@ -28,7 +28,7 @@ public class Reverb extends CompositeModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of("In", input);
   }
 

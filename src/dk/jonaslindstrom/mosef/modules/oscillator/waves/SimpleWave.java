@@ -4,16 +4,16 @@ import dk.jonaslindstrom.mosef.MOSEFSettings;
 
 public abstract class SimpleWave implements Wave {
 
-  private float[] buffer;
+  private double[] buffer;
 
   public SimpleWave(MOSEFSettings settings) {
-    this.buffer = new float[settings.getBufferSize()];
+    this.buffer = new double[settings.getBufferSize()];
   }
 
-  public abstract float getSample(float t);
+  public abstract double getSample(double t);
 
   @Override
-  public float[] getSamples(float[] t) {
+  public double[] getSamples(double[] t) {
     for (int i = 0; i < t.length; i++) {
       buffer[i] = getSample(t[i]);
     }

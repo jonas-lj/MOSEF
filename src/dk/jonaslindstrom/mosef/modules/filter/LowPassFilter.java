@@ -2,23 +2,23 @@ package dk.jonaslindstrom.mosef.modules.filter;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.memory.SampleMemory;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.filter.filters.LowPassDiscreteFilterFactory;
 import dk.jonaslindstrom.mosef.modules.filter.filters.windows.RectangularWindow;
 import dk.jonaslindstrom.mosef.modules.filter.filters.windows.Window;
 import java.util.Map;
 
-public class LowPassFilter implements MOSEFModule {
+public class LowPassFilter implements Module {
 
-  private MOSEFModule cutoff;
-  private float[][] discreteFilters;
-  private MOSEFModule input;
+  private Module cutoff;
+  private double[][] discreteFilters;
+  private Module input;
   private SampleMemory sampleMemory;
   private int length;
-  private float scale;
-  private float[] buffer;
+  private double scale;
+  private double[] buffer;
 
-  public LowPassFilter(MOSEFSettings settings, MOSEFModule input, MOSEFModule cutoff) {
+  public LowPassFilter(MOSEFSettings settings, Module input, Module cutoff) {
     // Default values
     this(settings, input, cutoff, 512, 101, new RectangularWindow(101));
   }
@@ -33,9 +33,9 @@ public class LowPassFilter implements MOSEFModule {
    * @param length The length of the filters to be used.
    * @param window The window function to be used in the filter.
    */
-  public LowPassFilter(MOSEFSettings settings, MOSEFModule input, MOSEFModule cutoff, int size,
+  public LowPassFilter(MOSEFSettings settings, Module input, Module cutoff, int size,
       int length, Window window) {
-    this.buffer = new float[settings.getBufferSize()];
+    this.buffer = new double[settings.getBufferSize()];
     this.input = input;
     this.length = length;
     this.cutoff = cutoff;
@@ -45,8 +45,8 @@ public class LowPassFilter implements MOSEFModule {
      * We only need to consider frequencies up to half the samplerate, e.g. the Shannon-Nyquist
      * frequency.
      */
-    float d = settings.getSampleRate() * 0.5f / size;
-    this.discreteFilters = new float[size][length];
+    double d = settings.getSampleRate() * 0.5f / size;
+    this.discreteFilters = new double[size][length];
     for (int i = 0; i < size; i++) {
       discreteFilters[i] =
           new LowPassDiscreteFilterFactory((int) (i * d), length, settings.getSampleRate(), window)
@@ -57,15 +57,15 @@ public class LowPassFilter implements MOSEFModule {
   }
 
   @Override
-  public float[] getNextSamples() {
-    float[] cutoffs = cutoff.getNextSamples();
-    float[] inputs = input.getNextSamples();
+  public double[] getNextSamples() {
+    double[] cutoffs = cutoff.getNextSamples();
+    double[] inputs = input.getNextSamples();
     for (int i = 0; i < cutoffs.length; i++) {
       sampleMemory.push(inputs[i]);
 
       int fcIndex = (int) (cutoffs[i] * scale);
 
-      float c = 0.0f;
+      double c = 0.0f;
       for (int j = 0; j < this.length; j++) {
         c += sampleMemory.get(j) * discreteFilters[fcIndex][j];
       }
@@ -75,7 +75,7 @@ public class LowPassFilter implements MOSEFModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of("In", input, "Cutoff", cutoff);
   }
 

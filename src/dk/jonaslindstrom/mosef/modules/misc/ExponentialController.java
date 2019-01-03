@@ -1,19 +1,19 @@
 package dk.jonaslindstrom.mosef.modules.misc;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Arrays;
 import java.util.Map;
 
-public class ExponentialController implements MOSEFModule {
+public class ExponentialController implements Module {
 
-  private float min, max, control;
-  private float[] buffer;
+  private double min, max, control;
+  private double[] buffer;
 
-  public ExponentialController(MOSEFSettings settings, float min, float max) {
+  public ExponentialController(MOSEFSettings settings, double min, double max) {
     this.min = min;
     this.max = max;
-    this.buffer = new float[settings.getBufferSize()];
+    this.buffer = new double[settings.getBufferSize()];
     setController(0.0f);
   }
 
@@ -22,23 +22,23 @@ public class ExponentialController implements MOSEFModule {
    * 
    * @param value
    */
-  public void setController(float c) {
+  public void setController(double c) {
     this.control = c;
-    float value = (float) (min + (max - min) * Math.expm1(control) / Math.E);
+    double value = (double) (min + (max - min) * Math.expm1(control) / Math.E);
     Arrays.fill(buffer, value);
   }
 
-  public float getControl() {
+  public double getControl() {
     return control;
   }
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
     return buffer;
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of();
   }
 

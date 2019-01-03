@@ -2,28 +2,28 @@ package dk.jonaslindstrom.mosef.modules.synth;
 
 import dk.jonaslindstrom.mosef.MOSEF;
 import dk.jonaslindstrom.mosef.modules.CompositeModule;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Map;
 
 public class Organ extends CompositeModule {
 
   private static int[] overtoneRatios = new int[] {2, 3, 4, 6, 8, 10, 12, 16};
-  private MOSEFModule frequency;
-  private MOSEFModule[] drawbars;
+  private Module frequency;
+  private Module[] drawbars;
 
-  public Organ(MOSEF mosef, MOSEFModule frequency, MOSEFModule... drawbars) {
+  public Organ(MOSEF mosef, Module frequency, Module... drawbars) {
     super(mosef);
     this.frequency = frequency;
     this.drawbars = drawbars;
   }
 
   @Override
-  public MOSEFModule buildModule(MOSEF m) {
+  public Module buildModule(MOSEF m) {
     int numberOfOvertones = drawbars.length;
 
-    MOSEFModule[] oscillators = new MOSEFModule[numberOfOvertones + 1];
+    Module[] oscillators = new Module[numberOfOvertones + 1];
 
-    MOSEFModule[] splitFrequencies = m.split(frequency, numberOfOvertones + 1);
+    Module[] splitFrequencies = m.split(frequency, numberOfOvertones + 1);
     oscillators[0] = m.triangle(splitFrequencies[0]);
 
     for (int i = 1; i <= numberOfOvertones; i++) {
@@ -35,8 +35,8 @@ public class Organ extends CompositeModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
-    Map<String, MOSEFModule> out = Map.of("Frequency", frequency);
+  public Map<String, Module> getInputs() {
+    Map<String, Module> out = Map.of("Frequency", frequency);
     for (int i = 0; i < drawbars.length; i++) {
       out.put("Drawbar" + i, drawbars[i]);
     }

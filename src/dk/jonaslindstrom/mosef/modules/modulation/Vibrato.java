@@ -2,16 +2,16 @@ package dk.jonaslindstrom.mosef.modules.modulation;
 
 import dk.jonaslindstrom.mosef.MOSEF;
 import dk.jonaslindstrom.mosef.modules.CompositeModule;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Map;
 
 public class Vibrato extends CompositeModule {
 
-  private MOSEFModule input;
-  private MOSEFModule rate;
-  private MOSEFModule depth;
+  private Module input;
+  private Module rate;
+  private Module depth;
 
-  public Vibrato(MOSEF mosef, MOSEFModule input, MOSEFModule rate, MOSEFModule depth) {
+  public Vibrato(MOSEF mosef, Module input, Module rate, Module depth) {
     super(mosef);
     this.input = input;
     this.rate = rate;
@@ -19,13 +19,13 @@ public class Vibrato extends CompositeModule {
   }
 
   @Override
-  public MOSEFModule buildModule(MOSEF mosef) {
-    MOSEFModule sine = mosef.center(mosef.sine(rate), 0.5f, depth);
+  public Module buildModule(MOSEF mosef) {
+    Module sine = mosef.center(mosef.sine(rate), 0.5f, depth);
     return mosef.amplifier(sine, input);
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of("In", input, "Rate", rate, "Depth", depth);
   }
 

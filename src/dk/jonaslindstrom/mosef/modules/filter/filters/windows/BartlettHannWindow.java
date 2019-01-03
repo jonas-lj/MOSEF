@@ -14,10 +14,10 @@ public class BartlettHannWindow implements Window {
   }
 
   @Override
-  public float getCoefficient(int k) {
+  public double getCoefficient(int k) {
     // No need to use wavetable - windows are just called once when creating
     // a filter.
-    return (float) (0.62f - 0.48f * Math.abs(k / (this.length - 1) - 0.5f)
+    return (double) (0.62f - 0.48f * Math.abs(k / (this.length - 1) - 0.5f)
         - 0.38f * Math.cos(2.0f * Math.PI * k / (this.length - 1)));
   }
 

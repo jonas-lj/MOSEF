@@ -23,7 +23,7 @@ package dk.jonaslindstrom.mosef.modules.tuning;
 // }
 //
 // @Override
-// public float[] getNextSamples() {
+// public double[] getNextSamples() {
 //
 // if (inputs[0] > 0.0f) {
 // tuner.setNote(melody[state++]);

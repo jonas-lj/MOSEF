@@ -1,7 +1,7 @@
 package dk.jonaslindstrom.mosef.modules.envelope;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class FadeOut extends SimpleModule {
@@ -10,22 +10,22 @@ public class FadeOut extends SimpleModule {
     ON, OFF
   }
 
-  private float dt;
+  private double dt;
   private FaderStatus status;
-  private float t;
+  private double t;
 
-  public FadeOut(MOSEFSettings settings, MOSEFModule input, MOSEFModule length, MOSEFModule gate) {
+  public FadeOut(MOSEFSettings settings, Module input, Module length, Module gate) {
     super(settings, "Input", input, "Length", length, "Gate", gate);
     this.dt = 1.0f / settings.getSampleRate();
     this.status = FaderStatus.OFF;
   }
 
   @Override
-  public float getNextSample(float... inputs) {
+  public double getNextSample(double... inputs) {
 
-    float i = inputs[0];
-    float l = inputs[1];
-    float g = inputs[2];
+    double i = inputs[0];
+    double l = inputs[1];
+    double g = inputs[2];
 
     switch (this.status) {
       case OFF:

@@ -8,6 +8,6 @@ public interface InterpolateFunction {
    * @param t
    * @return
    */
-  public float interpolate(float t);
+  public double interpolate(double t);
 
 }

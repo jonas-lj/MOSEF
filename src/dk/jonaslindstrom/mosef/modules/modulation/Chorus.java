@@ -2,18 +2,18 @@ package dk.jonaslindstrom.mosef.modules.modulation;
 
 import dk.jonaslindstrom.mosef.MOSEF;
 import dk.jonaslindstrom.mosef.modules.CompositeModule;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Map;
 
 public class Chorus extends CompositeModule {
 
-  private MOSEFModule input;
-  private MOSEFModule rate;
-  private MOSEFModule wetness;
-  private MOSEFModule depth;
+  private Module input;
+  private Module rate;
+  private Module wetness;
+  private Module depth;
 
-  public Chorus(MOSEF mosef, MOSEFModule input, MOSEFModule rate, MOSEFModule wetness,
-      MOSEFModule depth) {
+  public Chorus(MOSEF mosef, Module input, Module rate, Module wetness,
+      Module depth) {
     super(mosef);
     this.input = input;
     this.rate = rate;
@@ -22,24 +22,24 @@ public class Chorus extends CompositeModule {
   }
 
   @Override
-  public MOSEFModule buildModule(MOSEF m) {
+  public Module buildModule(MOSEF m) {
 
-    MOSEFModule[] split = m.split(input, 2);
+    Module[] split = m.split(input, 2);
 
     // Create LFO centered around 0.005 with amplitude 0.004
-    MOSEFModule lfo = m.center(m.sine(rate), 0.005f, depth);
+    Module lfo = m.center(m.sine(rate), 0.005f, depth);
 
     // One signal is delayed, another is not
-    MOSEFModule delay = m.amplifier(m.delay(split[0], lfo, 0.01f), wetness);
+    Module delay = m.amplifier(m.delay(split[0], lfo, 0.01f), wetness);
 
     // Mix signal and delayed signal
-    MOSEFModule chorus = m.mixer(delay, split[1]);
+    Module chorus = m.mixer(delay, split[1]);
 
     return chorus;
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of("In", input, "Rate", rate, "Mix", wetness, "Depth", depth);
   }
 

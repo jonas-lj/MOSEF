@@ -8,6 +8,6 @@ public interface TuningFunction {
    * @param note
    * @return
    */
-  public float getFrequency(int note);
+  public double getFrequency(int note);
 
 }

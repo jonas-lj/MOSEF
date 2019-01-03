@@ -14,9 +14,9 @@ public class HammingWindow implements Window {
   }
 
   @Override
-  public float getCoefficient(int k) {
+  public double getCoefficient(int k) {
     // No need to use wavetable - windows are just called once when creating a filter.
-    return (float) (0.54f - 0.46f * Math.cos(2.0f * Math.PI * k / (this.length - 1)));
+    return (double) (0.54f - 0.46f * Math.cos(2.0f * Math.PI * k / (this.length - 1)));
   }
 
 }

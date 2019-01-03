@@ -2,11 +2,10 @@ package dk.jonaslindstrom.mosef.modules.sample;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.memory.SampleConverter;
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.io.File;
 import java.io.IOException;
-import java.nio.FloatBuffer;
-
+import java.nio.DoubleBuffer;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -25,8 +24,8 @@ public class SampleFactory {
     byte[] audioBytes =
         new byte[settings.getBufferSize() * audioInputStream.getFormat().getFrameSize()];
 
-    float[] buffer = new float[settings.getBufferSize()];
-    FloatBuffer frames = FloatBuffer.allocate((int) audioInputStream.getFrameLength() * 2);
+    double[] buffer = new double[settings.getBufferSize()];
+    DoubleBuffer frames = DoubleBuffer.allocate((int) audioInputStream.getFrameLength() * 2);
 
     while (audioInputStream.read(audioBytes) != -1) {
       converter.fillSamples(buffer, audioBytes);
@@ -35,9 +34,9 @@ public class SampleFactory {
     return new Sample(settings, frames.array(), wrap);
   }
 
-  public static Sample fromModule(MOSEFSettings settings, MOSEFModule input, int samples,
+  public static Sample fromModule(MOSEFSettings settings, Module input, int samples,
       boolean wrap) {
-    FloatBuffer buffer = FloatBuffer.allocate(samples);
+    DoubleBuffer buffer = DoubleBuffer.allocate(samples);
     for (int i = 0; i < samples / settings.getBufferSize(); i++) {
       buffer.put(input.getNextSamples());
     }

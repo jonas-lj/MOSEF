@@ -14,7 +14,7 @@ public class RectangularWindow implements Window {
   }
 
   @Override
-  public float getCoefficient(int k) {
+  public double getCoefficient(int k) {
     if (k >= 0 && k < length) {
       return 1.0f;
     }

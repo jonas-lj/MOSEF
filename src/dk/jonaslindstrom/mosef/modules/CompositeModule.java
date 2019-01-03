@@ -2,10 +2,10 @@ package dk.jonaslindstrom.mosef.modules;
 
 import dk.jonaslindstrom.mosef.MOSEF;
 
-public abstract class CompositeModule implements MOSEFModule {
+public abstract class CompositeModule implements Module {
 
   private MOSEF mosef;
-  private MOSEFModule output;
+  private Module output;
 
   protected CompositeModule(MOSEF mosef) {
     this.mosef = mosef;
@@ -17,10 +17,10 @@ public abstract class CompositeModule implements MOSEFModule {
    * @param m
    * @return
    */
-  public abstract MOSEFModule buildModule(MOSEF m);
+  public abstract Module buildModule(MOSEF m);
 
   @Override
-  public float[] getNextSamples() {
+  public double[] getNextSamples() {
     if (output == null) {
       output = buildModule(mosef);
     }

@@ -1,23 +1,23 @@
 package dk.jonaslindstrom.mosef.modules.level;
 
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Arrays;
 import java.util.Map;
 
-public class Level implements MOSEFModule {
+public class Level implements Module {
 
-  private MOSEFModule input;
+  private Module input;
 
-  public Level(MOSEFModule input) {
+  public Level(Module input) {
     this.input = input;
   }
 
   @Override
-  public float[] getNextSamples() {
-    float[] buffer = input.getNextSamples();
+  public double[] getNextSamples() {
+    double[] buffer = input.getNextSamples();
 
-    float mean = 0.0f;
-    for (float s : buffer) {
+    double mean = 0.0f;
+    for (double s : buffer) {
       mean += s;
     }
     mean /= buffer.length;
@@ -27,7 +27,7 @@ public class Level implements MOSEFModule {
   }
 
   @Override
-  public Map<String, MOSEFModule> getInputs() {
+  public Map<String, Module> getInputs() {
     return Map.of("In", input);
   }
 

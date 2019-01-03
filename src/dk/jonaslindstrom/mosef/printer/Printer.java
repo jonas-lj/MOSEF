@@ -1,22 +1,22 @@
 package dk.jonaslindstrom.mosef.printer;
 
-import dk.jonaslindstrom.mosef.modules.MOSEFModule;
+import dk.jonaslindstrom.mosef.modules.Module;
 import java.util.Collections;
 import java.util.Map;
 
 public class Printer {
 
-  private MOSEFModule out;
+  private Module out;
 
-  public Printer(MOSEFModule out) {
+  public Printer(Module out) {
     this.out = out;
   }
 
-  private String print(MOSEFModule base, int indention) {
+  private String print(Module base, int indention) {
     StringBuilder sb = new StringBuilder();
     // sb.append(String.join("", Collections.nCopies(indention, " ")));
     sb.append(base.getClass().getSimpleName());
-    Map<String, MOSEFModule> inputs = base.getInputs();
+    Map<String, Module> inputs = base.getInputs();
     for (String name : inputs.keySet()) {
       sb.append("\n");
       sb.append(String.join("", Collections.nCopies(indention, " ")));
