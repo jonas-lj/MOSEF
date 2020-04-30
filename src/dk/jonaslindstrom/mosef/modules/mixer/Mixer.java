@@ -13,7 +13,11 @@ public class Mixer extends SimpleModule {
    * @param modules
    */
   public Mixer(MOSEFSettings settings, Module... modules) {
-    super(settings, "In", List.of(modules));
+    super(settings, List.of(modules));
+  }
+
+  public Mixer(MOSEFSettings settings, List<Module> modules) {
+    super(settings, modules);
   }
 
   @Override

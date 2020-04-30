@@ -7,7 +7,7 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 public class Distortion extends SimpleModule {
 
   public Distortion(MOSEFSettings settings, Module input, Module distortion) {
-    super(settings, "In", input, "Distortion", distortion);
+    super(settings, input, distortion);
   }
 
   @Override

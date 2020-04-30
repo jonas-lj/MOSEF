@@ -14,20 +14,20 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
  */
 public class Delay extends SimpleModule {
 
-  private SampleMemory sampleMemory;
+  private final SampleMemory sampleMemory;
 
   /**
    * Create a new delay module whose output is the input signal with its phase shifted.
-   * 
+   *
+   * @param settings
    * @param input The module used for input.
    * @param delay The module determining how much delay should be applied to the input. If it
    *        outputs <i>s</i>, this module outputs the sample that was received from the input module
    *        <i>s x sampleRate</i> samples earlier.
    * @param memory Max delay time in seconds.
-   * @param sampleRate The number of samples per second.
    */
   public Delay(MOSEFSettings settings, Module input, Module delay, double memory) {
-    super(settings, "In", input, "Delay", delay);
+    super(settings, input, delay);
     this.sampleMemory = new SampleMemory((int) (memory * settings.getSampleRate()));
   }
 
@@ -36,8 +36,8 @@ public class Delay extends SimpleModule {
 
     sampleMemory.push(inputs[0]);
 
-    int delayInFrames = (int) (inputs[1] * settings.getSampleRate());
-    return sampleMemory.get(delayInFrames);
+    int delayInSamples = (int) (inputs[1] * settings.getSampleRate());
+    return sampleMemory.get(delayInSamples);
   }
 
 }

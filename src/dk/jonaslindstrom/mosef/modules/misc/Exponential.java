@@ -14,7 +14,7 @@ public class Exponential extends SimpleModule {
    * @param input
    */
   public Exponential(MOSEFSettings settings, Module input) {
-    super(settings, "In", input);
+    super(settings, input);
   }
 
   @Override

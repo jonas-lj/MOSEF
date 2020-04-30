@@ -2,6 +2,8 @@ package dk.jonaslindstrom.mosef.modules.sample;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.util.Pair;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.ShortBuffer;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -86,11 +89,6 @@ public class Sample implements Module {
 
     AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
 
-  }
-
-  @Override
-  public Map<String, Module> getInputs() {
-    return Map.of();
   }
 
 }

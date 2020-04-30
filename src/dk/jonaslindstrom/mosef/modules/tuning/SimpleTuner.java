@@ -13,7 +13,7 @@ public class SimpleTuner extends SimpleModule implements Tuner {
   private int note;
 
   public SimpleTuner(MOSEFSettings settings, TuningFunction tuningFunction) {
-    super(settings, Map.of());
+    super(settings);
     this.tuningFunction = tuningFunction;
     setNote(0);
   }

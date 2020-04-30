@@ -21,7 +21,7 @@ public class GlidingTuner extends SimpleModule implements Tuner {
 
   public GlidingTuner(MOSEFSettings settings, Module speed, TuningFunction tuningFunction,
       InterpolateFunction interpolateFunction) {
-    super(settings, "Speed", speed);
+    super(settings, speed);
     this.tuningFunction = tuningFunction;
     this.interpolateFunction = interpolateFunction;
     this.frequency = tuningFunction.getFrequency(0);

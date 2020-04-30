@@ -14,7 +14,7 @@ public class Limiter extends SimpleModule {
 
 
   public Limiter(MOSEFSettings settings, Module input, Module limit) {
-    super(settings, "In", input, "Limit", limit);
+    super(settings, input, limit);
   }
 
   @Override
@@ -26,9 +26,9 @@ public class Limiter extends SimpleModule {
       return limit;
     } else if (input < -limit) {
       return -limit;
-    } else {
-      return input;
     }
+
+    return input;
   }
 
 }

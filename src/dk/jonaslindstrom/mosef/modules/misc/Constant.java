@@ -2,7 +2,10 @@ package dk.jonaslindstrom.mosef.modules.misc;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.util.Pair;
+
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class Constant implements Module {
@@ -23,11 +26,6 @@ public class Constant implements Module {
   @Override
   public double[] getNextSamples() {
     return buffer;
-  }
-
-  @Override
-  public Map<String, Module> getInputs() {
-    return Map.of();
   }
 
 }

@@ -1,8 +1,9 @@
 package dk.jonaslindstrom.mosef.modules.splitter;
 
 import dk.jonaslindstrom.mosef.modules.Module;
-import java.util.Arrays;
-import java.util.Map;
+import dk.jonaslindstrom.mosef.util.Pair;
+
+import java.util.List;
 
 /**
  * This class splits a signal. However, only splitter module it self (the master) increments the
@@ -16,7 +17,9 @@ public class Splitter {
 
   private Module input;
   private Module[] outputs;
-  private double[][] samples;
+  private double[] samples;
+
+  private int master;
 
   public static Module[] split(Module input, int n) {
     Splitter splitter = new Splitter(input, n);
@@ -26,52 +29,40 @@ public class Splitter {
   private Splitter(Module input, int number) {
     this.input = input;
 
-    this.outputs = new Module[number];
-    outputs[0] = new Master();
-    for (int i = 1; i < number; i++) {
-      outputs[i] = new Slave(i);
+    outputs = new Module[number];
+
+    this.master = 0;
+    for (int i = 0; i < number; i++) {
+      outputs[i] = new Split(i);
     }
-    this.samples = new double[number][];
   }
 
   private Module[] getOutputs() {
     return outputs;
   }
 
-  private class Master implements Module {
+  private class Split implements Module {
 
-    @Override
-    public double[] getNextSamples() {
-      samples[0] = input.getNextSamples();
-      for (int i = 1; i < samples.length; i++) {
-        samples[i] = Arrays.copyOf(samples[0], samples[0].length);
-      }
-      return samples[0];
-    }
+    private final int i;
 
-    @Override
-    public Map<String, Module> getInputs() {
-      return Map.of("In", input);
-    }
-
-  }
-
-  private class Slave implements Module {
-
-    private int i;
-
-    public Slave(int i) {
+    public Split(int i) {
       this.i = i;
     }
 
     @Override
     public double[] getNextSamples() {
-      return samples[i];
-    }
+      // On the very first sample update, a non-master Split may be called before the others. In that case,
+      // this Slave should be the master.
+      if (samples == null && master != i) {
+        master = i;
+      }
 
-    @Override
-    public Map<String, Module> getInputs() {
-      return Map.of("In", input);
+      // Only the master calls the input module. Otherwise it would update multiple times per buffer update.
+      if (i == master) {
+        samples = input.getNextSamples();
+      }
+
+      return samples;
     }
 
   }

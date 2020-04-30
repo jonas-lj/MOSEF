@@ -1,6 +1,9 @@
 package dk.jonaslindstrom.mosef.modules.debug;
 
 import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.util.Pair;
+
+import java.util.List;
 import java.util.Map;
 
 public class Printer implements Module {
@@ -34,11 +37,6 @@ public class Printer implements Module {
       }
     }
     return buffer;
-  }
-
-  @Override
-  public Map<String, Module> getInputs() {
-    return Map.of("Input", input);
   }
 
 }

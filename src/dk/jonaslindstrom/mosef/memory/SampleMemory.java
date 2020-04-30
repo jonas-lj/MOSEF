@@ -44,7 +44,7 @@ public class SampleMemory {
    * @return
    */
   public double get(int n) {
-    int i = (pointer - n + memory.length) % memory.length;
+    int i = (pointer - 1 - n + memory.length) % memory.length;
     return memory[i];
   }
 

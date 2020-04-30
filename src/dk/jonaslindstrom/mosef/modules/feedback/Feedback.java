@@ -2,7 +2,13 @@ package dk.jonaslindstrom.mosef.modules.feedback;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.modules.misc.Constant;
 import dk.jonaslindstrom.mosef.modules.mixer.Mixer;
+import dk.jonaslindstrom.mosef.modules.splitter.Splitter;
+import dk.jonaslindstrom.mosef.util.Pair;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,32 +28,54 @@ import java.util.Map;
  */
 public class Feedback implements Module {
 
-  private Mixer mixer;
-  private Module input;
+  private final Module input, rate;
+  private double[] buffer;
+  private Module feedback;
   private MOSEFSettings settings;
 
-  public Feedback(MOSEFSettings settings, Module input) {
+  public Feedback(MOSEFSettings settings, Module input, Module rate) {
     this.settings = settings;
     this.input = input;
-  }
-
-  @Override
-  public double[] getNextSamples() {
-    return mixer.getNextSamples();
+    this.rate = rate;
+    this.buffer = new double[settings.getBufferSize()];
   }
 
   /**
    * Set the input of this feedback module.
    * 
-   * @param feedback
+   * @param input
    */
-  public void setFeedbackSource(Module feedback) {
-    this.mixer = new Mixer(settings, input, feedback);
+  public Module attachFeedback(Module input) {
+    this.feedback = new FeedbackPlug(input);
+    return feedback;
   }
 
   @Override
-  public Map<String, Module> getInputs() {
-    return Map.of("In", input);
+  public double[] getNextSamples() {
+    buffer = input.getNextSamples();
+    return buffer;
+  }
+
+  private class FeedbackPlug implements Module {
+
+    private final Module input;
+
+    private FeedbackPlug(Module input) {
+      this.input = input;
+    }
+
+    @Override
+    public double[] getNextSamples() {
+      double[] in = input.getNextSamples();
+      double[] amp = rate.getNextSamples();
+
+      for (int i = 0; i < buffer.length; i++) {
+        buffer[i] = in[i] + amp[i] * buffer[i];
+      }
+
+      return buffer;
+    }
+
   }
 
 }

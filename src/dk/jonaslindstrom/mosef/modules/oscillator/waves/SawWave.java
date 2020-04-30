@@ -2,14 +2,12 @@ package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 
-public class SawWave extends SimpleWave {
+import java.util.function.DoubleUnaryOperator;
 
-  public SawWave(MOSEFSettings settings) {
-    super(settings);
-  }
+public class SawWave implements DoubleUnaryOperator {
 
   @Override
-  public double getSample(double t) {
+  public double applyAsDouble(double t) {
     if (t < 0.5f) {
       return 2.0f * t;
     } else {

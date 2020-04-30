@@ -7,26 +7,21 @@ import java.util.Map;
 public class ClockFixed extends SimpleModule {
 
   private int state;
-  private int delta;
+  private final int delta;
 
   public ClockFixed(MOSEFSettings settings, int bpm) {
-    super(settings, Map.of());
+    super(settings);
     this.state = 0;
-    this.delta = (int) (settings.getSampleRate() * 60.0 / bpm);
-  }
-
-  public void reset() {
-    this.state = 0;
+    this.delta = settings.getSampleRate() * 60 / bpm;
   }
 
   @Override
   public double getNextSample(double... inputs) {
-    state++;
-    if (state == delta) {
-      reset();
-      return 1.0f;
+    if (++state == delta) {
+      this.state = 0;
+      return 1.0;
     }
-    return 0.0f;
+    return 0.0;
   }
 
 }

@@ -15,7 +15,7 @@ public class FadeOut extends SimpleModule {
   private double t;
 
   public FadeOut(MOSEFSettings settings, Module input, Module length, Module gate) {
-    super(settings, "Input", input, "Length", length, "Gate", gate);
+    super(settings, input, length, gate);
     this.dt = 1.0f / settings.getSampleRate();
     this.status = FaderStatus.OFF;
   }

@@ -10,7 +10,7 @@ public class Periodic extends SimpleModule {
   private double[] frequencies;
 
   public Periodic(MOSEFSettings settings, Module a, double[] frequencies) {
-    super(settings, "Trigger", a);
+    super(settings, a);
     this.state = 0;
     this.frequencies = frequencies;
   }

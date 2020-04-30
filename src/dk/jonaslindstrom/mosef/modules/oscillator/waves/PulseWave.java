@@ -2,25 +2,16 @@ package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
 import dk.jonaslindstrom.mosef.modules.Module;
 
-public class PulseWave implements Wave {
+import java.util.function.DoubleBinaryOperator;
 
-  private Module pulseWidth;
-
-  public PulseWave(Module pulseWidth) {
-    this.pulseWidth = pulseWidth;
-  }
+public class PulseWave implements DoubleBinaryOperator {
 
   @Override
-  public double[] getSamples(double[] t) {
-    double[] widths = pulseWidth.getNextSamples();
-    for (int i = 0; i < t.length; i++) {
-      if (t[i] < widths[i]) {
-        t[i] = 1.0f;
-      } else {
-        t[i] = -1.0f;
-      }
+  public double applyAsDouble(double t, double w) {
+    if (t < w) {
+      return 0.99;
+    } else {
+      return -.99;
     }
-    return t;
   }
-
 }

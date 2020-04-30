@@ -1,7 +1,10 @@
 package dk.jonaslindstrom.mosef.modules.level;
 
 import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.util.Pair;
+
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class Level implements Module {
@@ -24,11 +27,6 @@ public class Level implements Module {
 
     Arrays.fill(buffer, mean);
     return buffer;
-  }
-
-  @Override
-  public Map<String, Module> getInputs() {
-    return Map.of("In", input);
   }
 
 }

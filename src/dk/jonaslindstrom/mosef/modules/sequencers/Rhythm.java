@@ -10,7 +10,7 @@ public class Rhythm extends SimpleModule {
   private int b;
 
   public Rhythm(MOSEFSettings settings, Module clock, int[] rhythm) {
-    super(settings, "Clock", clock);
+    super(settings, clock);
     this.rhythm = rhythm;
     this.b = 0;
   }

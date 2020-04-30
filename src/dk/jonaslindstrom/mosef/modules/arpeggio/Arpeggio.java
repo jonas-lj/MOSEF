@@ -2,7 +2,11 @@ package dk.jonaslindstrom.mosef.modules.arpeggio;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
+import dk.jonaslindstrom.mosef.util.Pair;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Arpeggio implements Module {
@@ -44,17 +48,6 @@ public class Arpeggio implements Module {
       buffer[i] = tones[currentTone][i];
     }
     return buffer;
-  }
-
-  @Override
-  public Map<String, Module> getInputs() {
-    Map<String, Module> inputsMap = new LinkedHashMap<>();
-    inputsMap.put("Speed", speed);
-    int i = 0;
-    for (Module tone : tones) {
-      inputsMap.put("Tone" + i, tone);
-    }
-    return inputsMap;
   }
 
 }

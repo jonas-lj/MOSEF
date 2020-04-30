@@ -4,13 +4,12 @@ import dk.jonaslindstrom.mosef.MOSEFSettings;
 import java.awt.geom.Point2D;
 import java.util.function.DoubleUnaryOperator;
 
-public class SampledWave extends SimpleWave {
+public class SampledWave implements DoubleUnaryOperator {
 
   private Point2D.Double[] samplePoints;
   private double[] slopes;
 
-  public SampledWave(MOSEFSettings settings, DoubleUnaryOperator function, int samples) {
-    super(settings);
+  public SampledWave(DoubleUnaryOperator function, int samples) {
     cacheSamplePoints(function, samples);
     cacheSlopes();
   }
@@ -32,8 +31,7 @@ public class SampledWave extends SimpleWave {
     }
   }
 
-  @Override
-  public double getSample(double t) {
+  public double applyAsDouble(double t) {
     return interpolate(t);
   }
 

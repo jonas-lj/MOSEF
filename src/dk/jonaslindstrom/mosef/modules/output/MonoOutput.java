@@ -11,7 +11,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-public class Output implements StopableModule, OutputModule {
+public class MonoOutput implements StopableModule, OutputModule {
 
   private Module module;
   private boolean running;
@@ -23,7 +23,7 @@ public class Output implements StopableModule, OutputModule {
    * @param settings
    * @param input
    */
-  public Output(MOSEFSettings settings, Module input) {
+  public MonoOutput(MOSEFSettings settings, Module input) {
     if (settings.getBitRate() != 16) {
       throw new UnsupportedOperationException("For now, only 16 bit output is allowed");
     }
@@ -48,29 +48,26 @@ public class Output implements StopableModule, OutputModule {
 
       this.running = true;
 
-      Thread synthThread = new Thread() {
-        @Override
-        public void run() {
-          ByteBuffer byteBuffer = ByteBuffer.allocate(settings.getBufferSize() * byteRate);
-          ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
-          double scale = Math.pow(2, settings.getBitRate() - 1);
+      Thread synthThread = new Thread(() -> {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(settings.getBufferSize() * byteRate);
+        ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
+        double scale = Math.pow(2, settings.getBitRate() - 1);
 
-          double[] buffer;
+        double[] buffer;
 
-          while (running) {
-            buffer = module.getNextSamples();
-            if (buffer == null) {
-              buffer = new double[settings.getBufferSize()];
-            }
-
-            shortBuffer.rewind();
-            for (int i = 0; i < buffer.length; i++) {
-              shortBuffer.put((short) (buffer[i] * scale));
-            }
-            soundLine.write(byteBuffer.array(), 0, settings.getBufferSize() * byteRate);
+        while (running) {
+          buffer = module.getNextSamples();
+          if (buffer == null) {
+            buffer = new double[settings.getBufferSize()];
           }
+
+          shortBuffer.rewind();
+          for (int i = 0; i < buffer.length; i++) {
+            shortBuffer.put((short) (buffer[i] * scale));
+          }
+          soundLine.write(byteBuffer.array(), 0, settings.getBufferSize() * byteRate);
         }
-      };
+      });
       synthThread.start();
     } catch (LineUnavailableException e) {
       e.printStackTrace();

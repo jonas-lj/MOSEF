@@ -2,51 +2,36 @@ package dk.jonaslindstrom.mosef.modules.oscillator;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
-import dk.jonaslindstrom.mosef.modules.oscillator.waves.Wave;
-import java.util.Map;
+import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
-public class Oscillator implements Module {
+import java.util.function.DoubleUnaryOperator;
 
-  private Wave wave;
-  private Module frequency;
-  private double t = 0.0f;
-  private double scale;
-  private double[] buffer;
+public class Oscillator extends SimpleModule {
+
+  private final DoubleUnaryOperator wave;
+  private final double scale;
+  private double t = 0.0;
 
   /**
    * Create a new oscillator.
-   * 
+   *
+   * @param settings
    * @param frequency A module controlling the frequency of the oscillator.
-   * @param wave A {@link Wave} function.
-   * @param samplerate The number of samples per second.
+   * @param wave A wave function.
    */
-  public Oscillator(MOSEFSettings settings, Module frequency, Wave wave) {
-    this.buffer = new double[settings.getBufferSize()];
+  public Oscillator(MOSEFSettings settings, Module frequency, DoubleUnaryOperator wave) {
+    super(settings, frequency);
     this.wave = wave;
-    this.frequency = frequency;
-
-    this.scale = 1.0f / settings.getSampleRate();
+    this.scale = 1.0 / settings.getSampleRate();
   }
 
   @Override
-  public double[] getNextSamples() {
-
-    double[] frequencies = frequency.getNextSamples();
-
-    for (int i = 0; i < frequencies.length; i++) {
-      t += frequencies[i] * scale;
-      while (t > 1.0f) {
-        t -= 1.0f;
-      }
-      buffer[i] = t;
+  public double getNextSample(double... inputs) {
+    t += inputs[0] * scale;
+    while (t >= 1.0) {
+      t -= 1.0;
     }
-    return wave.getSamples(buffer);
-
-  }
-
-  @Override
-  public Map<String, Module> getInputs() {
-    return Map.of("Frequency", frequency);
+    return wave.applyAsDouble(t);
   }
 
 }

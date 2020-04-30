@@ -1,6 +1,9 @@
 package dk.jonaslindstrom.mosef.modules;
 
-import java.util.Map;
+import dk.jonaslindstrom.mosef.modules.splitter.Splitter;
+import dk.jonaslindstrom.mosef.util.Pair;
+
+import java.util.List;
 
 public interface Module {
 
@@ -10,8 +13,6 @@ public interface Module {
    * 
    * @return
    */
-  public double[] getNextSamples();
-
-  public Map<String, Module> getInputs();
+  double[] getNextSamples();
 
 }

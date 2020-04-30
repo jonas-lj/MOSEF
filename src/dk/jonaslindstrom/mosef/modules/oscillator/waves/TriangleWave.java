@@ -2,14 +2,12 @@ package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 
-public class TriangleWave extends SimpleWave {
+import java.util.function.DoubleUnaryOperator;
 
-  public TriangleWave(MOSEFSettings settings) {
-    super(settings);
-  }
+public class TriangleWave implements DoubleUnaryOperator {
 
   @Override
-  public double getSample(double t) {
+  public double applyAsDouble(double t) {
     if (t < 0.25f) {
       return 4.0f * t;
     } else if (t < 0.75f) {
@@ -18,5 +16,4 @@ public class TriangleWave extends SimpleWave {
       return -4.0f + 4.0f * t;
     }
   }
-
 }

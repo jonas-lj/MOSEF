@@ -21,7 +21,7 @@ public class Amplifier extends SimpleModule {
    * @param level
    */
   public Amplifier(MOSEFSettings settings, Module input, Module level) {
-    super(settings, "In", input, "Level", level);
+    super(settings, input, level);
   }
 
   @Override

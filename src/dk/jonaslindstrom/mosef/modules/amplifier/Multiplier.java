@@ -21,7 +21,7 @@ public class Multiplier extends SimpleModule {
    * @param level
    */
   public Multiplier(MOSEFSettings settings, Module input, Module level) {
-    super(settings, "In", input, "Level", level);
+    super(settings, input, level);
   }
 
   @Override

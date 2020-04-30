@@ -3,9 +3,11 @@ package dk.jonaslindstrom.mosef.modules.input;
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.StopableModule;
+import dk.jonaslindstrom.mosef.util.Pair;
+
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
-import java.util.Map;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import javax.sound.sampled.AudioFormat;
@@ -85,11 +87,6 @@ public class Input implements Module, StopableModule {
   @Override
   public void stop() {
     running = false;
-  }
-
-  @Override
-  public Map<String, Module> getInputs() {
-    return Map.of();
   }
 
 }

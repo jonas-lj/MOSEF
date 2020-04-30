@@ -6,6 +6,9 @@ import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.filter.filters.LowPassDiscreteFilterFactory;
 import dk.jonaslindstrom.mosef.modules.filter.filters.windows.RectangularWindow;
 import dk.jonaslindstrom.mosef.modules.filter.filters.windows.Window;
+import dk.jonaslindstrom.mosef.util.Pair;
+
+import java.util.List;
 import java.util.Map;
 
 public class LowPassFilter implements Module {
@@ -72,11 +75,6 @@ public class LowPassFilter implements Module {
       buffer[i] = c; // Reuse the buffer of the input module
     }
     return buffer;
-  }
-
-  @Override
-  public Map<String, Module> getInputs() {
-    return Map.of("In", input, "Cutoff", cutoff);
   }
 
 }

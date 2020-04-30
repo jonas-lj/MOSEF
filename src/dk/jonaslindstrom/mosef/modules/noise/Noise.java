@@ -13,12 +13,12 @@ import java.util.Map;
 public class Noise extends SimpleModule {
 
 	public Noise(MOSEFSettings settings) {
-		super(settings, Map.of());
+		super(settings);
 	}
 	
 	@Override
 	public double getNextSample(double ... inputs) {
-		return (double) (Math.random() * 2.0f) - 1.0f;
+		return (double) (Math.random() * 2.0) - 1.0;
 	}
 
 }

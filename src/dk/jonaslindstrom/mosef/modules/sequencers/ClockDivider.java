@@ -10,7 +10,7 @@ public class ClockDivider extends SimpleModule {
   private int counter;
 
   public ClockDivider(MOSEFSettings settings, Module clock, int divisor) {
-    super(settings, "Clock", clock);
+    super(settings, clock);
     this.divisor = divisor;
     this.counter = 0;
 

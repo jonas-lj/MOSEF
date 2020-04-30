@@ -2,19 +2,16 @@ package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 
-public class SquareWave extends SimpleWave {
+import java.util.function.DoubleUnaryOperator;
 
-  public SquareWave(MOSEFSettings settings) {
-    super(settings);
-  }
+public class SquareWave implements DoubleUnaryOperator {
 
   @Override
-  public double getSample(double t) {
-    if (t < 0.5f) {
-      return .99f;
+  public double applyAsDouble(double t) {
+    if (t < 0.5) {
+      return 1.0;
     } else {
-      return -.99f;
+      return -1.0;
     }
   }
-
 }
