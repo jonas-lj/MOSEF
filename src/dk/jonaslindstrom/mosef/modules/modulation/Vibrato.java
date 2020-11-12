@@ -13,7 +13,8 @@ public class Vibrato extends CompositeModule {
   }
 
   @Override
-  public Module buildModule(MOSEFSettings settings, Map<String, Module> inputs, Map<String, Double> parameters) {
+  public Module buildModule(MOSEFSettings settings, Map<String, Module> inputs,
+      Map<String, Double> parameters) {
     MOSEF mosef = new MOSEF(settings);
     Module sine = mosef.offset(mosef.sine(inputs.get("Rate")), 0.5f, inputs.get("Depth"));
     return mosef.amplifier(sine, inputs.get("Input"));

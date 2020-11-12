@@ -2,21 +2,19 @@ package dk.jonaslindstrom.mosef.modules.input;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
-import dk.jonaslindstrom.mosef.modules.StopableModule;
-import dk.jonaslindstrom.mosef.util.Pair;
-
+import dk.jonaslindstrom.mosef.modules.StoppableModule;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.TargetDataLine;
+import org.apache.commons.math3.util.FastMath;
 
-public class Input implements Module, StopableModule {
+public class Input implements Module, StoppableModule {
 
-  private MOSEFSettings settings;
+  private final MOSEFSettings settings;
   private TargetDataLine targetLine;
   private int bufferSize;
   private Queue<double[]> buffers;
@@ -26,7 +24,7 @@ public class Input implements Module, StopableModule {
   /**
    * Instances of this module provide sound from input sources, eg. instruments or microphones. This
    * module uses the default sound input source.
-   * 
+   *
    * @param settings
    */
   public Input(MOSEFSettings settings) {
@@ -46,7 +44,7 @@ public class Input implements Module, StopableModule {
         public void run() {
           ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize);
           ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
-          double scale = (double) Math.pow(2, -settings.getBitRate() - 1);
+          double scale = FastMath.pow(2, -settings.getBitRate() - 1);
           byte[] bytes = new byte[bufferSize];
           double[] buffer = new double[settings.getBufferSize()];
 

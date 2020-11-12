@@ -2,8 +2,6 @@ package dk.jonaslindstrom.mosef.modules.sample;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
-import dk.jonaslindstrom.mosef.util.Pair;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -11,20 +9,19 @@ import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.ShortBuffer;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import org.apache.commons.math3.util.FastMath;
 
 public class Sample implements Module {
 
-  private MOSEFSettings settings;
-  private DoubleBuffer sampleBuffer;
-  private double[] buffer;
-  private boolean wrap;
+  private final MOSEFSettings settings;
+  private final DoubleBuffer sampleBuffer;
+  private final double[] buffer;
+  private final boolean wrap;
 
   public Sample(MOSEFSettings settings, double[] sample, boolean wrap) {
     this.settings = settings;
@@ -53,7 +50,7 @@ public class Sample implements Module {
       // Wraps around
       int index = 0;
       do {
-        int inc = Math.min(buffer.length - index, sampleBuffer.remaining());
+        int inc = FastMath.min(buffer.length - index, sampleBuffer.remaining());
         sampleBuffer.get(buffer, index, inc);
         index += inc;
         if (!sampleBuffer.hasRemaining()) {
@@ -66,7 +63,7 @@ public class Sample implements Module {
   }
 
   public void save(File file) throws UnsupportedAudioFileException, IOException {
-    double scale = Math.pow(2, settings.getBitRate() - 1);
+    double scale = FastMath.pow(2, settings.getBitRate() - 1);
     int byteRate = settings.getBitRate() / 8;
 
     ByteBuffer byteBuffer = ByteBuffer.allocate(sampleBuffer.capacity() * byteRate);

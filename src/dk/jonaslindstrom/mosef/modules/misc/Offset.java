@@ -9,7 +9,7 @@ public class Offset extends SimpleModule {
   /**
    * This module performs an affine transformation on an input, so the output is <i>center + input *
    * amplitude</i>.
-   * 
+   *
    * @param settings
    * @param input
    * @param center
@@ -21,10 +21,15 @@ public class Offset extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
     double i = inputs[0];
     double c = inputs[1];
     double a = inputs[2];
+
+    if (c + a * i <= 0) {
+      System.out.println(i);
+    }
+
     return c + a * i;
   }
 

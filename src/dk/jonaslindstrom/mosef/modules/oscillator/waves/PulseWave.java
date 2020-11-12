@@ -1,7 +1,5 @@
 package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
-import dk.jonaslindstrom.mosef.modules.Module;
-
 import java.util.function.DoubleBinaryOperator;
 
 public class PulseWave implements DoubleBinaryOperator {

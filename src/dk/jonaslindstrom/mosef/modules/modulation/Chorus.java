@@ -10,12 +10,13 @@ public class Chorus extends CompositeModule {
 
 
   public Chorus(MOSEFSettings mosef, Module input, Module rate, Module wetness,
-                Module depth) {
+      Module depth) {
     super(mosef, Map.of("In", input, "Rate", rate, "Wetness", wetness, "Depth", depth));
   }
 
   @Override
-  public Module buildModule(MOSEFSettings settings, Map<String, Module> inputs, Map<String, Double> parameters) {
+  public Module buildModule(MOSEFSettings settings, Map<String, Module> inputs,
+      Map<String, Double> parameters) {
 
     MOSEF m = new MOSEF(settings);
 

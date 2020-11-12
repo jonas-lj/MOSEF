@@ -6,7 +6,7 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Rhythm extends SimpleModule {
 
-  private int[] rhythm;
+  private final int[] rhythm;
   private int b;
 
   public Rhythm(MOSEFSettings settings, Module clock, int[] rhythm) {
@@ -16,7 +16,7 @@ public class Rhythm extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
     double out = 0.0f;
     if (inputs[0] > 0.0f) {
       if (rhythm[b] != 0) {

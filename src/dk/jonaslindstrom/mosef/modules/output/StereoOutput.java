@@ -2,7 +2,7 @@ package dk.jonaslindstrom.mosef.modules.output;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
-import dk.jonaslindstrom.mosef.modules.StopableModule;
+import dk.jonaslindstrom.mosef.modules.StoppableModule;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.Objects;
@@ -11,13 +11,14 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import org.apache.commons.math3.util.FastMath;
 
-public class StereoOutput implements StopableModule, OutputModule {
+public class StereoOutput implements StoppableModule, OutputModule {
 
   private final Module left;
   private final Module right;
-  private boolean running;
   private final MOSEFSettings settings;
+  private boolean running;
 
   public StereoOutput(MOSEFSettings settings, Module left, Module right) {
     if (settings.getBitRate() != 16) {
@@ -45,7 +46,7 @@ public class StereoOutput implements StopableModule, OutputModule {
 
     try {
       final SourceDataLine soundLine = (SourceDataLine) AudioSystem.getLine(info);
-      soundLine.open(audioFormat, 2*settings.getBufferSize() * byteRate);
+      soundLine.open(audioFormat, 2 * settings.getBufferSize() * byteRate);
 
       soundLine.start();
 
@@ -54,14 +55,16 @@ public class StereoOutput implements StopableModule, OutputModule {
       Thread synthThread = new Thread(() -> {
         ByteBuffer byteBuffer = ByteBuffer.allocate(2 * settings.getBufferSize() * byteRate);
         ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
-        double scale = Math.pow(2, settings.getBitRate() - 1);
+        double scale = FastMath.pow(2, settings.getBitRate() - 1);
 
-        double[] leftBuffer;
-        double[] rightBuffer;
+        double[] leftBuffer = new double[settings.getBufferSize()];
+        double[] rightBuffer = new double[settings.getBufferSize()];
 
         while (running) {
-          leftBuffer = Objects.requireNonNullElse(left.getNextSamples(), new double[settings.getBufferSize()]);
-          rightBuffer = Objects.requireNonNullElse(right.getNextSamples(), new double[settings.getBufferSize()]);
+          leftBuffer = Objects
+              .requireNonNullElse(left.getNextSamples(), leftBuffer);
+          rightBuffer = Objects
+              .requireNonNullElse(right.getNextSamples(), rightBuffer);
 
           shortBuffer.rewind();
           for (int i = 0; i < settings.getBufferSize(); i++) {

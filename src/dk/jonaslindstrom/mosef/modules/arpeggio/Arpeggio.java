@@ -2,20 +2,14 @@ package dk.jonaslindstrom.mosef.modules.arpeggio;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
-import dk.jonaslindstrom.mosef.util.Pair;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Arpeggio implements Module {
 
-  private Module speed;
-  private Module[] tones;
+  private final Module speed;
+  private final Module[] tones;
   private int currentTone;
   private double t;
-  private MOSEFSettings settings;
+  private final MOSEFSettings settings;
 
   public Arpeggio(MOSEFSettings settings, Module speed, Module... tones) {
     this.speed = speed;

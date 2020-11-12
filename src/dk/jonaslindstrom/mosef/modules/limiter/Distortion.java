@@ -3,6 +3,7 @@ package dk.jonaslindstrom.mosef.modules.limiter;
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
+import org.apache.commons.math3.util.FastMath;
 
 public class Distortion extends SimpleModule {
 
@@ -11,10 +12,10 @@ public class Distortion extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
     double x = inputs[0];
     double d = inputs[1];
-    return (double) (x + Math.atan(16.0f * d * x) / 4.0f);
+    return x + FastMath.atan(16.0f * d * x) / 4.0f;
   }
 
 }

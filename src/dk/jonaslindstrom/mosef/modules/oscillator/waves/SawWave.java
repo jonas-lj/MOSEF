@@ -1,7 +1,5 @@
 package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
-import dk.jonaslindstrom.mosef.MOSEFSettings;
-
 import java.util.function.DoubleUnaryOperator;
 
 public class SawWave implements DoubleUnaryOperator {

@@ -2,19 +2,11 @@ package dk.jonaslindstrom.mosef.modules.feedback;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
-import dk.jonaslindstrom.mosef.modules.misc.Constant;
-import dk.jonaslindstrom.mosef.modules.mixer.Mixer;
-import dk.jonaslindstrom.mosef.modules.splitter.Splitter;
-import dk.jonaslindstrom.mosef.util.Pair;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents a module which allows us to provide feedback from a module which is not
  * defined until later. It is done as follows:
- * 
+ *
  * <pre>
  * ...
  * Feedback feedback = new Feedback(input);
@@ -22,16 +14,15 @@ import java.util.Map;
  * feedback.setFeedbackSource(source);
  * ...
  * </pre>
- * 
- * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
  *
+ * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
  */
 public class Feedback implements Module {
 
   private final Module input, rate;
   private double[] buffer;
   private Module feedback;
-  private MOSEFSettings settings;
+  private final MOSEFSettings settings;
 
   public Feedback(MOSEFSettings settings, Module input, Module rate) {
     this.settings = settings;
@@ -42,7 +33,7 @@ public class Feedback implements Module {
 
   /**
    * Set the input of this feedback module.
-   * 
+   *
    * @param input
    */
   public Module attachFeedback(Module input) {

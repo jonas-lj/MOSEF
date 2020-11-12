@@ -1,15 +1,11 @@
 package dk.jonaslindstrom.mosef.modules.level;
 
 import dk.jonaslindstrom.mosef.modules.Module;
-import dk.jonaslindstrom.mosef.util.Pair;
-
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 public class Level implements Module {
 
-  private Module input;
+  private final Module input;
 
   public Level(Module input) {
     this.input = input;

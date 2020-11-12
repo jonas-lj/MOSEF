@@ -1,17 +1,10 @@
 package dk.jonaslindstrom.mosef.modules;
 
-import dk.jonaslindstrom.mosef.modules.splitter.Splitter;
-import dk.jonaslindstrom.mosef.util.Pair;
-
-import java.util.List;
-
 public interface Module {
 
   /**
-   * Iterate the state of the module and return the output sound buffer. Input buffers should be
-   * left unchanged by a module.
-   * 
-   * @return
+   * Iterate the state of the module and return the output sound buffer. Module calling this method
+   * on other modules should not change the given buffer.
    */
   double[] getNextSamples();
 

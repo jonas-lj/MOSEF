@@ -9,7 +9,7 @@ public class Mixer extends SimpleModule {
 
   /**
    * Create a new mixer module with the given modules as input.
-   * 
+   *
    * @param modules
    */
   public Mixer(MOSEFSettings settings, Module... modules) {
@@ -21,7 +21,7 @@ public class Mixer extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
 
     double output = 0.0f;
     for (int i = 0; i < inputs.length; i++) {
@@ -29,7 +29,6 @@ public class Mixer extends SimpleModule {
     }
     return output;
   }
-
 
 
 }

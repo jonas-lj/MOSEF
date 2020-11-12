@@ -1,30 +1,19 @@
 package dk.jonaslindstrom.mosef.modules.splitter;
 
 import dk.jonaslindstrom.mosef.modules.Module;
-import dk.jonaslindstrom.mosef.util.Pair;
-
-import java.util.List;
 
 /**
  * This class splits a signal. However, only splitter module it self (the master) increments the
  * state of the input module, where the other output modules (the slaves) simply keep a copy of the
  * latest sample from the input module.
- * 
- * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
- *
  */
 public class Splitter {
 
-  private Module input;
-  private Module[] outputs;
+  private final Module input;
+  private final Module[] outputs;
   private double[] samples;
 
   private int master;
-
-  public static Module[] split(Module input, int n) {
-    Splitter splitter = new Splitter(input, n);
-    return splitter.getOutputs();
-  }
 
   private Splitter(Module input, int number) {
     this.input = input;
@@ -35,6 +24,11 @@ public class Splitter {
     for (int i = 0; i < number; i++) {
       outputs[i] = new Split(i);
     }
+  }
+
+  public static Module[] split(Module input, int n) {
+    Splitter splitter = new Splitter(input, n);
+    return splitter.getOutputs();
   }
 
   private Module[] getOutputs() {

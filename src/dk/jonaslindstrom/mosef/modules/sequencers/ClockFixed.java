@@ -2,12 +2,11 @@ package dk.jonaslindstrom.mosef.modules.sequencers;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
-import java.util.Map;
 
 public class ClockFixed extends SimpleModule {
 
-  private int state;
   private final int delta;
+  private int state;
 
   public ClockFixed(MOSEFSettings settings, int bpm) {
     super(settings);
@@ -16,7 +15,7 @@ public class ClockFixed extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
     if (++state == delta) {
       this.state = 0;
       return 1.0;

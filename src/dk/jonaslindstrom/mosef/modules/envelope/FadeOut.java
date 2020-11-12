@@ -6,14 +6,9 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class FadeOut extends SimpleModule {
 
-  private enum FaderStatus {
-    ON, OFF
-  }
-
-  private double dt;
+  private final double dt;
   private FaderStatus status;
   private double t;
-
   public FadeOut(MOSEFSettings settings, Module input, Module length, Module gate) {
     super(settings, input, length, gate);
     this.dt = 1.0f / settings.getSampleRate();
@@ -21,7 +16,7 @@ public class FadeOut extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
 
     double i = inputs[0];
     double l = inputs[1];
@@ -43,6 +38,10 @@ public class FadeOut extends SimpleModule {
         }
         return (t / l) * i;
     }
+  }
+
+  private enum FaderStatus {
+    ON, OFF
   }
 
 }

@@ -1,6 +1,8 @@
 package dk.jonaslindstrom.mosef.modules.melody;
 
-public class Note implements Comparable<Note> {
+import java.io.Serializable;
+
+public class Note implements Comparable<Note>, Serializable {
 
   private final int note;
   private final double time;

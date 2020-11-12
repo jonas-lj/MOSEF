@@ -6,9 +6,8 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 /**
  * This class represents a limiter module where the input signal is limited by some limit.
- * 
- * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
  *
+ * @author Jonas Lindstrøm (mail@jonaslindstrom.dk)
  */
 public class Limiter extends SimpleModule {
 
@@ -18,7 +17,7 @@ public class Limiter extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
     double input = inputs[0];
     double limit = inputs[1];
 

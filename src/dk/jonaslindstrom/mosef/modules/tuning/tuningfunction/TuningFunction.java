@@ -3,11 +3,9 @@ package dk.jonaslindstrom.mosef.modules.tuning.tuningfunction;
 public interface TuningFunction {
 
   /**
-   * A3 = 0.
-   * 
-   * @param note
-   * @return
+   * Return the frequency of the given note in this tuning. When applicable, we use MIDI conventions,
+   * eg. A3 = 69.
    */
-  public double getFrequency(int note);
+  double getFrequency(int note);
 
 }

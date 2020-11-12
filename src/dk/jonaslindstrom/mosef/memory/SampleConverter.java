@@ -1,16 +1,18 @@
 package dk.jonaslindstrom.mosef.memory;
 
+import org.apache.commons.math3.util.FastMath;
+
 public class SampleConverter {
 
-  private int byteRate;
-  private double scale;
-  private boolean bigEndian;
+  private final int byteRate;
+  private final double scale;
+  private final boolean bigEndian;
 
   public SampleConverter(int bitRate, boolean bigEndian) {
     System.out.println(bitRate);
 
     this.byteRate = bitRate / 8;
-    this.scale = (double) Math.pow(2, -bitRate + 1);
+    this.scale = FastMath.pow(2, -bitRate + 1);
     this.bigEndian = bigEndian;
   }
 
@@ -35,10 +37,6 @@ public class SampleConverter {
 
       samples[i] = s * scale;
     }
-
-  }
-
-  public void fillBytes(byte[] bytes, double[] samples) {
 
   }
 

@@ -18,7 +18,7 @@ public class Clock extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
     state++;
     if (state >= settings.getSampleRate() * inputs[0]) {
       reset();

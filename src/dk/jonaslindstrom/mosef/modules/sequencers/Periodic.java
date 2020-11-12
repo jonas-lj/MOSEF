@@ -7,7 +7,7 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 public class Periodic extends SimpleModule {
 
   private int state;
-  private double[] frequencies;
+  private final double[] frequencies;
 
   public Periodic(MOSEFSettings settings, Module a, double[] frequencies) {
     super(settings, a);
@@ -16,7 +16,7 @@ public class Periodic extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
     if (inputs[0] > 0.0f) {
       state = (state + 1) % frequencies.length;
     }

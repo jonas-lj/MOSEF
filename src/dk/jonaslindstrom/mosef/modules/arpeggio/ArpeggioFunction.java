@@ -2,7 +2,7 @@ package dk.jonaslindstrom.mosef.modules.arpeggio;
 
 public abstract class ArpeggioFunction {
 
-  private int n;
+  private final int n;
 
   public ArpeggioFunction(int n) {
     this.n = n;

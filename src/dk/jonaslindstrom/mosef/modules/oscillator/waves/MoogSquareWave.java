@@ -8,7 +8,7 @@ public class MoogSquareWave implements DoubleUnaryOperator {
   private final double x1;
 
   public MoogSquareWave(double a, double b) {
-    this.x1 = 0.5 - (2 - a/2) / (b - a);
+    this.x1 = 0.5 - (2 - a / 2) / (b - a);
     this.a = a;
     this.b = b;
   }
@@ -26,7 +26,7 @@ public class MoogSquareWave implements DoubleUnaryOperator {
     if (t < x1) {
       return -1 + t * a;
     } else {
-      return -1 + x1*a + (t-x1) * b;
+      return -1 + x1 * a + (t - x1) * b;
     }
   }
 }

@@ -1,6 +1,5 @@
 package dk.jonaslindstrom.mosef.modules.oscillator.waves;
 
-import dk.jonaslindstrom.mosef.MOSEFSettings;
 import java.awt.geom.Point2D;
 import java.util.function.DoubleUnaryOperator;
 
@@ -37,6 +36,9 @@ public class SampledWave implements DoubleUnaryOperator {
 
   private double interpolate(double x) {
     int i;
+    if (x < 0) {
+      System.out.println(x);
+    }
     for (i = 0; i < samplePoints.length - 1; i++) {
       if (samplePoints[i].getX() > x) {
         break;

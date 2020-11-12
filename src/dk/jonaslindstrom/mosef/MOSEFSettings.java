@@ -2,7 +2,9 @@ package dk.jonaslindstrom.mosef;
 
 public class MOSEFSettings {
 
-  private int samplerate, buffersize, bitrate;
+  private final int samplerate;
+  private final int buffersize;
+  private final int bitrate;
 
   public MOSEFSettings(int samplerate, int buffersize, int bitrate) {
     this.samplerate = samplerate;

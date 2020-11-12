@@ -3,40 +3,32 @@ package dk.jonaslindstrom.mosef.modules.envelope;
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
-import dk.jonaslindstrom.mosef.modules.misc.Constant;
-
-import java.util.Map;
+import org.apache.commons.math3.util.FastMath;
 
 public class VCADSREnvelope extends SimpleModule {
 
   private static final double THRESHOLD = 0.1;
   private static final double MAX = 0.999;
   private static final double MIN = Double.MIN_VALUE;
-
-  private enum EnvelopeStatus {
-    ATTACK, DECAY, SUSTAIN, RELEASE, OFF;
-  };
   private EnvelopeStatus status = EnvelopeStatus.OFF;
 
-  private enum TriggerStatus {
-    ON, OFF;
-  };
+  ;
   private TriggerStatus trigger = TriggerStatus.OFF;
-
   private double value = 0.0;
 
+  ;
   public VCADSREnvelope(MOSEFSettings settings, Module attack, Module decay,
-                        Module sustainLevel, Module release, Module gate) {
+      Module sustainLevel, Module release, Module gate) {
     super(settings,
-             attack,
-            decay,
-            sustainLevel,
-            release,
-            gate);
+        attack,
+        decay,
+        sustainLevel,
+        release,
+        gate);
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
 
     double a = inputs[0];
     double d = inputs[1];
@@ -44,9 +36,9 @@ public class VCADSREnvelope extends SimpleModule {
     double r = inputs[3];
     double g = inputs[4];
 
-    double da = (1.0 / Math.max(a, MIN)) / settings.getSampleRate();
-    double dd = (1.0 / Math.max(d, MIN)) / settings.getSampleRate();
-    double dr = (1.0 / Math.max(r, MIN)) / settings.getSampleRate();
+    double da = (1.0 / FastMath.max(a, MIN)) / settings.getSampleRate();
+    double dd = (1.0 / FastMath.max(d, MIN)) / settings.getSampleRate();
+    double dr = (1.0 / FastMath.max(r, MIN)) / settings.getSampleRate();
 
     if (trigger == TriggerStatus.OFF && g > THRESHOLD) {
       trigger = TriggerStatus.ON;
@@ -91,6 +83,14 @@ public class VCADSREnvelope extends SimpleModule {
     }
 
     return value;
+  }
+
+  private enum EnvelopeStatus {
+    ATTACK, DECAY, SUSTAIN, RELEASE, OFF;
+  }
+
+  private enum TriggerStatus {
+    ON, OFF;
   }
 
 }

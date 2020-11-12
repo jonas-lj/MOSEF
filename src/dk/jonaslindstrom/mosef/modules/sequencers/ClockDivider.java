@@ -6,7 +6,7 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class ClockDivider extends SimpleModule {
 
-  private int divisor;
+  private final int divisor;
   private int counter;
 
   public ClockDivider(MOSEFSettings settings, Module clock, int divisor) {
@@ -17,7 +17,7 @@ public class ClockDivider extends SimpleModule {
   }
 
   @Override
-  public double getNextSample(double... inputs) {
+  public double getNextSample(double[] inputs) {
     if (inputs[0] == 1.0f) {
       counter++;
       if (counter == divisor) {
