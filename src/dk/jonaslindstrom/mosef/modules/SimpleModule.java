@@ -3,15 +3,17 @@ package dk.jonaslindstrom.mosef.modules;
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import java.util.List;
 
-/** This is an implementation of a module where the ouput at a specific sample only depends on the
- * corresponding sample of the input signals. */
+/**
+ * This is an implementation of a module where the ouput at a specific sample only depends on the
+ * corresponding sample of the input signals.
+ */
 public abstract class SimpleModule implements Module {
 
+  protected final MOSEFSettings settings;
+  protected final List<Module> inputs;
   private final double[] buffer;
   private final double[][] inputBuffers;
   private final double[] current;
-  protected final MOSEFSettings settings;
-  protected final List<Module> inputs;
 
   protected SimpleModule(MOSEFSettings settings, List<Module> inputs) {
     this.settings = settings;

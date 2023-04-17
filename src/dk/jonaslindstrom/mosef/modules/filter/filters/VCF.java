@@ -5,6 +5,7 @@ import dk.jonaslindstrom.mosef.memory.SampleMemory;
 import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 import dk.jonaslindstrom.mosef.modules.filter.filters.butterworth.ButterworthFilter;
+import java.util.function.DoubleFunction;
 
 public class VCF extends SimpleModule {
 
@@ -13,6 +14,12 @@ public class VCF extends SimpleModule {
   private final double min, delta;
 
   public VCF(MOSEFSettings settings, Module input, Module cutoff) {
+    this(settings, input, cutoff,
+        fc -> ButterworthFilter.computeCoefficients(3, settings.getSampleRate(), fc));
+  }
+
+  public VCF(MOSEFSettings settings, Module input, Module cutoff,
+      DoubleFunction<double[][]> filter) {
     super(settings, input, cutoff);
 
     int order = 3;
@@ -29,8 +36,7 @@ public class VCF extends SimpleModule {
     this.delta = (max - min) / size;
 
     for (int j = 0; j < size; j++) {
-      double[][] c = ButterworthFilter.computeCoefficients(order,
-          settings.getSampleRate(), min + delta * j);
+      double[][] c = filter.apply(min + delta * j);
       a[j] = c[0];
       b[j] = c[1];
     }

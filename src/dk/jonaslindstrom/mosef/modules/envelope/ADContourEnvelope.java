@@ -1,9 +1,9 @@
 package dk.jonaslindstrom.mosef.modules.envelope;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
+import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
 import org.apache.commons.math3.util.FastMath;
-import dk.jonaslindstrom.mosef.modules.Module;
 
 public class ADContourEnvelope extends SimpleModule {
 

@@ -6,8 +6,8 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 
 public class Periodic extends SimpleModule {
 
-  private int state;
   private final double[] frequencies;
+  private int state;
 
   public Periodic(MOSEFSettings settings, Module a, double[] frequencies) {
     super(settings, a);

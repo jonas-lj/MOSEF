@@ -27,5 +27,4 @@ public class DefaultEncoder implements Encoder {
   }
 
 
-
 }

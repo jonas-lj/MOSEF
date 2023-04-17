@@ -12,11 +12,9 @@ public class VCADSREnvelope extends SimpleModule {
   private static final double MIN = Double.MIN_VALUE;
   private EnvelopeStatus status = EnvelopeStatus.OFF;
 
-  ;
   private TriggerStatus trigger = TriggerStatus.OFF;
   private double value = 0.0;
 
-  ;
   public VCADSREnvelope(MOSEFSettings settings, Module attack, Module decay,
       Module sustainLevel, Module release, Module gate) {
     super(settings,
@@ -86,11 +84,11 @@ public class VCADSREnvelope extends SimpleModule {
   }
 
   private enum EnvelopeStatus {
-    ATTACK, DECAY, SUSTAIN, RELEASE, OFF;
+    ATTACK, DECAY, SUSTAIN, RELEASE, OFF
   }
 
   private enum TriggerStatus {
-    ON, OFF;
+    ON, OFF
   }
 
 }

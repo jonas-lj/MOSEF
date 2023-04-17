@@ -2,7 +2,6 @@ package dk.jonaslindstrom.mosef.modules.sequencers;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
 import dk.jonaslindstrom.mosef.modules.Module;
-import java.util.Arrays;
 
 public class EuclideanRhythm extends Rhythm {
 

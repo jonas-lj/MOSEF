@@ -8,7 +8,7 @@ import org.apache.commons.math3.util.FastMath;
 public class ADSREnvelope extends SimpleModule {
 
   private static final double THRESHOLD = 0.1;
-  private static final double MAX = 0.999;
+  private static final double MAX = 0.9999;
   private static final double MIN = Double.MIN_VALUE;
   private final double s, Δa, Δd, Δr;
 
@@ -53,7 +53,7 @@ public class ADSREnvelope extends SimpleModule {
 
       case DECAY:
         value -= Δd;
-        if (value < s) {
+        if (value <= s) {
           value = s;
           status = EnvelopeStatus.SUSTAIN;
         }
@@ -65,7 +65,7 @@ public class ADSREnvelope extends SimpleModule {
 
       case RELEASE:
         value -= Δr;
-        if (value < 0.0) {
+        if (value <= 0.0) {
           value = 0.0;
           status = EnvelopeStatus.OFF;
         }

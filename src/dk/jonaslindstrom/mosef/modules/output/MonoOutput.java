@@ -5,6 +5,7 @@ import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.StoppableModule;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
+import java.util.Arrays;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
@@ -15,8 +16,8 @@ import org.apache.commons.math3.util.FastMath;
 public class MonoOutput implements StoppableModule, OutputModule {
 
   private final Module module;
-  private boolean running;
   private final MOSEFSettings settings;
+  private boolean running;
 
   /**
    * Instances of this class takes an input module and outputs it through the sound card.
@@ -37,11 +38,11 @@ public class MonoOutput implements StoppableModule, OutputModule {
     AudioFormat audioFormat =
         new AudioFormat(settings.getSampleRate(), settings.getBitRate(), 1,
             true, true);
-    DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
 
     try {
-      final SourceDataLine soundLine = (SourceDataLine) AudioSystem.getLine(info);
+      final SourceDataLine soundLine = AudioSystem.getSourceDataLine(audioFormat);
       soundLine.open(audioFormat, settings.getBufferSize() * byteRate);
+      System.out.println(soundLine.getBufferSize());
 
       soundLine.start();
 
@@ -66,8 +67,21 @@ public class MonoOutput implements StoppableModule, OutputModule {
           }
           byte[] bytes = byteBuffer.array();
           soundLine.write(bytes, 0, bytes.length);
+
+          while (soundLine.getBufferSize()/2 < soundLine.available()) {
+            try {
+              Thread.sleep(1);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+          }
         }
+        soundLine.drain();
+        soundLine.stop();
+        soundLine.close();
       });
+      synthThread.setPriority(Thread.MAX_PRIORITY);
+      synthThread.setDaemon(true);
       synthThread.start();
     } catch (LineUnavailableException e) {
       e.printStackTrace();

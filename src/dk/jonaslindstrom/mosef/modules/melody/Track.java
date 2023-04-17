@@ -5,17 +5,35 @@ import dk.jonaslindstrom.mosef.modules.SimpleModule;
 import dk.jonaslindstrom.mosef.modules.tuning.tuningfunction.TuningFunction;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Track implements Serializable {
+public class Track extends AbstractCollection<Note> implements Serializable, Collection<Note> {
 
   private final ArrayList<Note> notes;
 
   public Track() {
     this.notes = new ArrayList<Note>();
+  }
+
+  @Override
+  public Iterator<Note> iterator() {
+    return notes.iterator();
+  }
+
+  @Override
+  public int size() {
+    return notes.size();
+  }
+
+  public static Track decode(String encoded) throws IOException, ClassNotFoundException {
+    Encoder encoder = new DefaultEncoder();
+    return encoder.decode(encoded);
   }
 
   public void addNote(Note note) {
@@ -63,6 +81,11 @@ public class Track implements Serializable {
 
   public String toString() {
     return notes.toString();
+  }
+
+  public String encode() throws IOException {
+    Encoder encoder = new DefaultEncoder();
+    return encoder.encode(this);
   }
 
   private static class MonophonicPitchModule extends SimpleModule {
@@ -123,7 +146,7 @@ public class Track implements Serializable {
         return 0.0;
       }
 
-      if (i > 1 && active && t >= melody.get(i - 1).getTime() + melody.get(i - 1).getDuration()) {
+      if (i > 0 && active && t >= melody.get(i - 1).getTime() + melody.get(i - 1).getDuration()) {
         this.active = false;
       }
 
@@ -159,15 +182,5 @@ public class Track implements Serializable {
 
       return out;
     }
-  }
-
-  public static Track decode(String encoded) throws IOException, ClassNotFoundException {
-    Encoder encoder = new DefaultEncoder();
-    return encoder.decode(encoded);
-  }
-
-  public String encode() throws IOException {
-    Encoder encoder = new DefaultEncoder();
-    return encoder.encode(this);
   }
 }

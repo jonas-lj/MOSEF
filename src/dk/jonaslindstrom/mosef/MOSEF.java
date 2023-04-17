@@ -1,5 +1,6 @@
 package dk.jonaslindstrom.mosef;
 
+import dk.jonaslindstrom.mosef.midi.MIDIIn;
 import dk.jonaslindstrom.mosef.midi.MIDIParser;
 import dk.jonaslindstrom.mosef.modules.Module;
 import dk.jonaslindstrom.mosef.modules.SimpleModule;
@@ -10,8 +11,9 @@ import dk.jonaslindstrom.mosef.modules.delay.Delay;
 import dk.jonaslindstrom.mosef.modules.envelope.ADSREnvelope;
 import dk.jonaslindstrom.mosef.modules.envelope.VCADSREnvelope;
 import dk.jonaslindstrom.mosef.modules.feedback.Feedback;
-import dk.jonaslindstrom.mosef.modules.filter.filters.LPF;
+import dk.jonaslindstrom.mosef.modules.filter.filters.ResonantVCF;
 import dk.jonaslindstrom.mosef.modules.filter.filters.VCF;
+import dk.jonaslindstrom.mosef.modules.filter.filters.butterworth.ButterworthFilter;
 import dk.jonaslindstrom.mosef.modules.glide.LinearGlide;
 import dk.jonaslindstrom.mosef.modules.input.Input;
 import dk.jonaslindstrom.mosef.modules.limiter.Distortion;
@@ -36,14 +38,14 @@ import dk.jonaslindstrom.mosef.modules.oscillator.waves.TriangleWave;
 import dk.jonaslindstrom.mosef.modules.output.MonoOutput;
 import dk.jonaslindstrom.mosef.modules.output.OutputModule;
 import dk.jonaslindstrom.mosef.modules.output.StereoOutput;
+import dk.jonaslindstrom.mosef.modules.polyphony.Voice;
 import dk.jonaslindstrom.mosef.modules.sample.Sample;
 import dk.jonaslindstrom.mosef.modules.sample.SampleFactory;
 import dk.jonaslindstrom.mosef.modules.sequencers.ClockFixed;
 import dk.jonaslindstrom.mosef.modules.sequencers.Periodic;
 import dk.jonaslindstrom.mosef.modules.sequencers.Rhythm;
 import dk.jonaslindstrom.mosef.modules.splitter.Splitter;
-import dk.jonaslindstrom.mosef.modules.tuning.tuningfunction.WellTemperedTuningFunction;
-import dk.jonaslindstrom.mosef.util.Pair;
+import dk.jonaslindstrom.mosef.modules.tuning.tuningfunction.examples.EquallyTemperedTuningFunction;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -309,7 +311,7 @@ public class MOSEF {
     return new VCO(settings, frequency, new SquareWave());
   }
 
-  public Module puraSquare(double frequency) {
+  public Module pureSquare(double frequency) {
     return new LFO(settings, frequency, new SquareWave());
   }
 
@@ -338,11 +340,19 @@ public class MOSEF {
   }
 
   public Module filter(Module input, double cutoff) {
-    return new LPF(settings, input, cutoff);
+    return new ButterworthFilter(settings, input, 3, cutoff);
   }
 
   public Module vcf(Module input, Module cutoff) {
     return new VCF(settings, input, cutoff);
+  }
+
+  public Module vcf(Module input, Module cutoff, Module resonance) {
+    return new ResonantVCF(settings, input, cutoff, resonance);
+  }
+
+  public Module vcf(Module input, Module cutoff, double resonance) {
+    return new ResonantVCF(settings, input, cutoff, constant(resonance));
   }
 
   /**
@@ -389,28 +399,28 @@ public class MOSEF {
   }
 
   public Module redNoise() {
-    return new LPF(settings, whiteNoise(), 1, 100);
+    return new ButterworthFilter(settings, whiteNoise(), 1, 100);
   }
 
   public VoiceInputs monophonicFromMidi(String file, int bpm)
       throws InvalidMidiDataException, IOException {
     Track track = MIDIParser.parse(file, bpm);
-    return track.getMonophonicVoice(settings, new WellTemperedTuningFunction());
+    return track.getMonophonicVoice(settings, new EquallyTemperedTuningFunction());
   }
 
   public VoiceInputs monophonicFromTrack(Track track) {
-    return track.getMonophonicVoice(settings, new WellTemperedTuningFunction());
+    return track.getMonophonicVoice(settings, new EquallyTemperedTuningFunction());
   }
 
   public List<VoiceInputs> polyphonicFormMidi(String file, int bpm, int voices)
       throws InvalidMidiDataException, IOException {
     Track track = MIDIParser.parse(file, bpm);
-    return track.getPolyphonicVoices(settings, new WellTemperedTuningFunction(), voices);
+    return track.getPolyphonicVoices(settings, new EquallyTemperedTuningFunction(), voices);
   }
 
   public List<VoiceInputs> polyphonicFormTrack(Track track, int voices)
       throws InvalidMidiDataException, IOException {
-    return track.getPolyphonicVoices(settings, new WellTemperedTuningFunction(), voices);
+    return track.getPolyphonicVoices(settings, new EquallyTemperedTuningFunction(), voices);
   }
 
   public Module clock(int bpm) {
@@ -426,12 +436,14 @@ public class MOSEF {
   }
 
   public Module arpeggio(Module clock, int[] notes) {
-    double[] frequencies = Arrays.stream(notes).mapToDouble(new WellTemperedTuningFunction()::getFrequency).toArray();
+    double[] frequencies = Arrays.stream(notes)
+        .mapToDouble(new EquallyTemperedTuningFunction()::getFrequency).toArray();
     return sequencer(clock, frequencies);
   }
 
   public Module arpeggio(int bpm, int[] notes) {
-    double[] frequencies = Arrays.stream(notes).mapToDouble(new WellTemperedTuningFunction()::getFrequency).toArray();
+    double[] frequencies = Arrays.stream(notes)
+        .mapToDouble(new EquallyTemperedTuningFunction()::getFrequency).toArray();
     return sequencer(clock(bpm), frequencies);
   }
 
@@ -463,6 +475,16 @@ public class MOSEF {
     Input input = new Input(settings);
     stoppableModules.add(input);
     return input;
+  }
+
+  public void midiIn(Voice voice, String input) {
+    MIDIIn midiIn = new MIDIIn(voice, input);
+    stoppableModules.add(midiIn);
+  }
+
+  public void midiIn(Voice voice) {
+    MIDIIn midiIn = new MIDIIn(voice);
+    stoppableModules.add(midiIn);
   }
 
   public void stop() {

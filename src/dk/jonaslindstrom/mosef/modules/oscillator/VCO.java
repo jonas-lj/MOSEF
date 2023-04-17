@@ -31,6 +31,11 @@ public class VCO extends SimpleModule {
     while (t >= 1.0) {
       t -= 1.0;
     }
+
+    while (t < 0.0) {
+      t += 1.0;
+    }
+
     return wave.applyAsDouble(t);
   }
 

@@ -83,7 +83,8 @@ public class TestModules {
         .sin(2.0 * Math.PI * t), 32));
 
     double[] actual = sine.getNextSamples();
-    double[] expected = DoubleStream.iterate(0.0, t -> t + 2.0 * Math.PI * frequency / sampleRate).limit(samples).map(Math::sin).toArray();
+    double[] expected = DoubleStream.iterate(0.0,
+        t -> t + 2.0 * Math.PI * frequency / sampleRate).limit(samples).map(Math::sin).toArray();
 
     Assert.assertArrayEquals(expected, actual, 0.01);
   }

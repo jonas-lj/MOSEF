@@ -20,7 +20,7 @@ public class Exponential extends SimpleModule {
 
   @Override
   public double getNextSample(double[] inputs) {
-    return (double) (Math.expm1(inputs[0]) / FastMath.E);
+    return Math.expm1(inputs[0]) / FastMath.E;
   }
 
 

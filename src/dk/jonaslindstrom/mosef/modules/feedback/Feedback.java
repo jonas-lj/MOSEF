@@ -20,15 +20,17 @@ import dk.jonaslindstrom.mosef.modules.Module;
 public class Feedback implements Module {
 
   private final Module input, rate;
+  private final MOSEFSettings settings;
+  private double[] withFeedback;
   private double[] buffer;
   private Module feedback;
-  private final MOSEFSettings settings;
 
   public Feedback(MOSEFSettings settings, Module input, Module rate) {
     this.settings = settings;
     this.input = input;
     this.rate = rate;
     this.buffer = new double[settings.getBufferSize()];
+    this.withFeedback = new double[settings.getBufferSize()];
   }
 
   /**
@@ -44,7 +46,7 @@ public class Feedback implements Module {
   @Override
   public double[] getNextSamples() {
     buffer = input.getNextSamples();
-    return buffer;
+    return withFeedback;
   }
 
   private class FeedbackPlug implements Module {
@@ -61,10 +63,10 @@ public class Feedback implements Module {
       double[] amp = rate.getNextSamples();
 
       for (int i = 0; i < buffer.length; i++) {
-        buffer[i] = in[i] + amp[i] * buffer[i];
+        withFeedback[i] = in[i] * amp[i] + buffer[i];
       }
 
-      return buffer;
+      return withFeedback;
     }
 
   }

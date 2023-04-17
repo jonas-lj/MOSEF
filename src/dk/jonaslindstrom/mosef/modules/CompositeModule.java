@@ -1,14 +1,11 @@
 package dk.jonaslindstrom.mosef.modules;
 
 import dk.jonaslindstrom.mosef.MOSEFSettings;
-import dk.jonaslindstrom.mosef.util.Pair;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
- * A module composed of other modules. Implement the {@link #buildModule(MOSEFSettings, Map, Map)} method
- * to define how to construct the module.
+ * A module composed of other modules. Implement the {@link #buildModule(MOSEFSettings, Map, Map)}
+ * method to define how to construct the module.
  */
 public abstract class CompositeModule implements Module {
 
@@ -27,8 +24,10 @@ public abstract class CompositeModule implements Module {
     this.output = buildModule(settings, inputs, parameters);
   }
 
-  /** Build the composite module and return the output module. The inputs and parameters maps contains
-   * the inputs and parameters given in the contructor. */
+  /**
+   * Build the composite module and return the output module. The inputs and parameters maps
+   * contains the inputs and parameters given in the contructor.
+   */
   public abstract Module buildModule(MOSEFSettings settings, Map<String, Module> inputs,
       Map<String, Double> parameters);
 

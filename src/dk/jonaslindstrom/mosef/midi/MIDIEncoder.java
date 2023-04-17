@@ -18,7 +18,7 @@ public class MIDIEncoder {
    * Save the given track as a one-track MIDI file.
    *
    * @param track The track to encode.
-   * @param file The path where the MIDI file is saved.
+   * @param file  The path where the MIDI file is saved.
    * @throws InvalidMidiDataException
    * @throws IOException
    */
@@ -28,26 +28,26 @@ public class MIDIEncoder {
     Sequence s = new Sequence(javax.sound.midi.Sequence.PPQ, 24);
     javax.sound.midi.Track t = s.createTrack();
 
-    // turn on General MIDI sound set  ****
-    byte[] b = {(byte) 0xF0, 0x7E, 0x7F, 0x09, 0x01, (byte) 0xF7};
-    SysexMessage sm = new SysexMessage();
-    sm.setMessage(b, 6);
-    MidiEvent me = new MidiEvent(sm, 0);
-    t.add(me);
+//    // turn on General MIDI sound set  ****
+//    byte[] b = {(byte) 0xF0, 0x7E, 0x7F, 0x09, 0x01, (byte) 0xF7};
+//    SysexMessage sm = new SysexMessage();
+//    sm.setMessage(b, 6);
+//    MidiEvent me = new MidiEvent(sm, 0);
+//    t.add(me);
 
     // set tempo (meta event) to 120 bpm
     MetaMessage mt = new MetaMessage();
     byte[] bt = {0x07, (byte) 0xa1, 0x20};
     mt.setMessage(0x51, bt, 3);
-    me = new MidiEvent(mt, 0);
+    MidiEvent me = new MidiEvent(mt, 0);
     t.add(me);
 
     ShortMessage mm = new ShortMessage();
-
-    // set poly on
-    mm.setMessage(0xB0, 0x7F, 0x00);
-    me = new MidiEvent(mm, 0);
-    t.add(me);
+//
+//    // set poly on
+//    mm.setMessage(0xB0, 0x7F, 0x00);
+//    me = new MidiEvent(mm, 0);
+//    t.add(me);
 
     // Add note on and note offs for all notes in track
     for (Note note : track.getNotes()) {

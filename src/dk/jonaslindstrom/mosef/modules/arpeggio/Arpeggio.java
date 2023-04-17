@@ -7,9 +7,9 @@ public class Arpeggio implements Module {
 
   private final Module speed;
   private final Module[] tones;
+  private final MOSEFSettings settings;
   private int currentTone;
   private double t;
-  private final MOSEFSettings settings;
 
   public Arpeggio(MOSEFSettings settings, Module speed, Module... tones) {
     this.speed = speed;
