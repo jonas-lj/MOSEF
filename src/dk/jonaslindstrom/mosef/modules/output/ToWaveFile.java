@@ -14,25 +14,22 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 
-public class ToWaveFile implements OutputModule {
+public class ToWaveFile {
 
     private final MOSEFSettings settings;
     private final Module module;
-    private final double duration;
     private final File file;
 
-    public ToWaveFile(MOSEFSettings settings, Module input, double duration, File file) {
+    public ToWaveFile(MOSEFSettings settings, Module input, File file) {
         if (settings.getBitRate() != 16) {
             throw new UnsupportedOperationException("For now, only 16 bit output is allowed");
         }
         this.settings = settings;
         this.module = input;
-        this.duration = duration;
         this.file = file;
     }
 
-    @Override
-    public void start() {
+    public void write(double duration) {
         AudioFormat format = new AudioFormat(settings.getSampleRate(), settings.getBitRate(), 1,
                 true, true);
 
