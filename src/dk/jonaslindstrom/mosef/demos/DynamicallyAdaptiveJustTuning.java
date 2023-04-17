@@ -15,7 +15,7 @@ import dk.jonaslindstrom.mosef.modules.tuning.tuningfunction.relative.FiveLimitT
 import java.io.File;
 import java.util.Arrays;
 
-public class TrackToFile {
+public class DynamicallyAdaptiveJustTuning {
 
     public static void main(String[] arguments) throws InterruptedException {
 
